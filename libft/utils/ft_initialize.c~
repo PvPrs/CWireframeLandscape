@@ -1,0 +1,8 @@
+
+
+void func(type* values) {
+	while(*values) {
+		x = *values++;
+		/* do whatever with x */
+	}
+}
