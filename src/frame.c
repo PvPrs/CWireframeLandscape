@@ -20,6 +20,7 @@
 ** Note that the MiniLibX can handle an arbitrary number of separate windows.
 ** @param size_x, size_y
 ** @param title
+** @variable *ptr represents a struct which contains identifiers for MLX to identify with.
 */
 
 void		load_frame(int size_x, int size_y, char *title)

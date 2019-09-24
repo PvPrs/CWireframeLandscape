@@ -61,6 +61,13 @@ static char		**ft_get_length(char **str, char const *s, char c)
 	return (str);
 }
 
+/*
+**
+** @param s
+** @param c
+** @param term_char
+** @return
+*/
 char			**ft_strsplit(char const *s, char c)
 {
 	char	**str;

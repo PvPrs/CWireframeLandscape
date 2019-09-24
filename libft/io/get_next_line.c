@@ -6,7 +6,7 @@
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/02/04 18:58:06 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/02/04 18:58:07 by dvan-boc      ########   odam.nl         */
+/*   Updated: 2019/03/02 15:03:31 by dvan-boc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,70 +14,47 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdio.h>
-
-static t_list	*get_file(int fd, t_list **file)
+static void		join_and_read(char **str, char **h, char buf[], int fd)
 {
-	t_list	*temp;
-
-	temp = *file;
-	while (temp)
-	{
-		if (temp->content_size == (size_t)fd)
-			return (temp);
-		temp = temp->next;
-	}
-	temp = ft_lstnew("", 1);
-	temp->content_size = fd;
-	ft_lstadd(file, temp);
-	temp = *file;
-	return (temp);
+	*str = *h;
+	*h = ft_strjoin(*str, buf);
+	(str) ? ft_strdel(&*str) : str;
+	buf[read(fd, buf, BUFF_SIZE)] = '\0';
 }
 
-static int		ft_read(const int fd, char *buf, t_list *current)
+static int		join_and_return(char **line, char **str, char **h, char buf[])
 {
-	char	*temp;
-	int		ret;
-
-	ret = 1;
-	while (ret > 0)
-	{
-		ret = read(fd, buf, BUFF_SIZE);
-		buf[ret] = '\0';
-		temp = current->content;
-		current->content = ft_strjoin(temp, buf);
-		free(temp);
-		if (ft_strchr(current->content, '\n'))
-			break ;
-	}
-	return (ret);
-}
-
-int				get_next_line(const int fd, char **line)
-{
-	int				ret;
-	char			buf[BUFF_SIZE + 1];
-	static t_list	*file;
-	t_list			*curr;
-	char			*temp;
-
-	if (line == NULL || fd < 0 || read(fd, buf, 0) < 0)
-		return (-1);
-	curr = get_file(fd, &file);
-	ret = ft_read(fd, buf, curr);
-	if (ret < BUFF_SIZE && !ft_strlen(curr->content))
-		return (0);
-	*line = ft_strchr(curr->content, '\n') == NULL ?
-			ft_strchr(curr->content, '\0') : ft_strchr(curr->content, '\n');
-	ret = *line - (char *)curr->content;
-	*line = ft_strsub(curr->content, 0, ret);
-	if (ret < (int)ft_strlen(curr->content))
-	{
-		temp = curr->content;
-		curr->content = ft_strdup(curr->content + ret + 1);
-		free(temp);
-	}
-	else
-		ft_strclr(curr->content);
+	*line = (!*str) ? ft_strjoin(*h, buf) : NULL;
+	(!*str) ? ft_strdel(&*h) : h;
+	if (!*str)
+		return (1);
+	**str = '\0';
+	*line = ft_strjoin(*h, buf);
+	(*h) ? ft_strdel(&*h) : h;
+	*h = (ft_strlen(*str + 1)) ? ft_strdup(*str + 1) : NULL;
 	return (1);
+}
+
+int				get_next_line(int fd, char **line)
+{
+	static char		*h[1024];
+	char			buf[BUFF_SIZE + 1];
+	char			*str;
+
+	if (read(fd, buf, 0) < 0 || fd < 0 || !line || fd > 1024)
+		return (-1);
+	ft_bzero(buf, BUFF_SIZE + 1);
+	h[fd] ? ft_memcpy(buf, h[fd], BUFF_SIZE) : (void*)read(fd, buf, BUFF_SIZE);
+	ft_strdel(&h[fd]);
+	h[fd] = ft_strnew(0);
+	while (*buf > 0 && !(ft_strchr(buf, '\n')))
+		join_and_read(&str, &h[fd], buf, fd);
+	str = ft_strchr(buf, '\n');
+	if (str || ((ft_strlen(buf) < BUFF_SIZE) && (h[fd][0] != '\0')))
+		return (join_and_return(line, &str, &h[fd], buf));
+	*line = h[fd];
+	(h[fd]) ? ft_strdel(&h[fd]) : h;
+	if (!h[fd] && *buf == '\0')
+		*line = NULL;
+	return (0);
 }

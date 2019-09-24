@@ -95,5 +95,7 @@ int					get_next_line(const int fd, char **line);
 int					ft_bit_to_max_int(int max_bit_size);
 void				ft_free_array(void **arr);
 void				ft_reinitialize(int *values);
+int					ft_2d_len(char **arr);
+int					ft_char_occur(char *str, char occur);
 
 #endif

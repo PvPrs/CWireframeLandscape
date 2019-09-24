@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strsub.c                                        :+:    :+:            */
+/*   ft_2d_len.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/01/18 16:53:10 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/01/18 16:53:13 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/10 16:39:44 by dvan-boc      #+#    #+#                 */
+/*   Updated: 2019/09/10 16:39:45 by dvan-boc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include <stdio.h>
 
-char		*ft_strsub(char const *s, unsigned int start, size_t len)
+/*
+** Returns the amount of rows contained in a 2D Array
+** @return
+*/
+int		ft_2d_len(char **arr)
 {
-	char	str[len];
-	int		index;
-	int		index_2;
-	char	*ptr;
+	int index;
 
-	ptr = str;
-	index = start;
-	index_2 = 0;
-	if (!s)
-		return (NULL);
-	while (s[index] && len != 0)
-	{
-		str[index_2] = s[index];
+	index = 0;
+	while (arr[index] != NULL)
 		index++;
-		index_2++;
-		len--;
-	}
-	return (ptr);
+	return (index);
 }

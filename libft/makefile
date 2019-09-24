@@ -82,6 +82,8 @@ SRC = string/ft_revstr.c \
 	utils/ft_sqrt.c \
 	utils/ft_reinitialize.c \
 	string/ft_strtrim.c \
+	mem/ft_2d_len.c \
+	string/ft_char_occur.c \
 
 OBJ = ft_striter.o \
 	ft_memset.o \
@@ -150,6 +152,8 @@ OBJ = ft_striter.o \
 	ft_bit_to_max_int.o \
 	get_next_line.o \
 	ft_reinitialize.o \
+	ft_2d_len.o \
+	ft_char_occur.o \
 
 all: $(NAME)
 
