@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "../includes/libft.h"
 
 static int		ft_get_words(const char *s, char c)
@@ -33,51 +34,44 @@ static int		ft_get_words(const char *s, char c)
 	return (words);
 }
 
-static char		**ft_get_length(char **str, char const *s, char c)
+static char		**arr_gen(char const *s, char c, char **str)
 {
 	int		index;
-	int		word_index;
-	int		start;
-	size_t	len;
+	int		w_index;
 
-	word_index = 0;
+	w_index = 0;
 	index = 0;
-	while (word_index < ft_get_words(s, c))
+	while ((*s != 0) || (s[index] != 0))
 	{
-		if (s[index] != c)
+		if (*s == c)
+			++s;
+		while (*s != c && *s != 0)
 		{
-			start = index;
-			len = 0;
-			while (s[index] != c && s[index])
+			++s;
+			++index;
+			if ((*s == c) || (*s == 0))
 			{
-				len++;
-				index++;
+				str[w_index] = (char*)malloc(sizeof(char) * index + 1);
+				str[w_index] = ft_strncpy(str[w_index], &s[-index], index);
+				str[w_index][index] = 0;
+				++w_index;
 			}
-			str[word_index] = ft_strsub(s, start, len);
-			word_index++;
 		}
-		index++;
+		index = 0;
 	}
 	return (str);
 }
 
-/*
-**
-** @param s
-** @param c
-** @param term_char
-** @return
-*/
 char			**ft_strsplit(char const *s, char c)
 {
 	char	**str;
 
-	if (!s || !c)
+	if (!s)
 		return (NULL);
-	str = (char **)malloc(ft_get_words(s, c) * sizeof(char*) + 1);
-	if (!str)
+	str = (char**)malloc(sizeof(char*) * ft_get_words(s, c) + 1);
+	if (str == NULL)
 		return (NULL);
-	ft_get_length(str, s, c);
 	str[ft_get_words(s, c)] = NULL;
+	str = arr_gen(s, c, str);
 	return (str);
 }

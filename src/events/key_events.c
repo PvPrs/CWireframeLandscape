@@ -10,10 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-enum		e_keys
+#include "../../minilibx_macos/mlx.h"
+#include "../../includes/fdf.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int		key_event(keyPressed key, t_param *mlx)
 {
-	LEFT = 123,
-	RIGHT = 124,
-	DOWN = 125,
-	UP = 126,
-} keyPressed;
+	if (key == ESC)
+	{
+		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+		exit(1);
+	}
+	return (0);
+}

@@ -23,10 +23,14 @@
 ** @variable *ptr represents a struct which contains identifiers for MLX to identify with.
 */
 
-void		load_frame(int size_x, int size_y, char *title)
+void		load_frame(int size_x, int size_y, char *title, int **map)
 {
 	t_param *ptr;
+	int		row;
+	int		col;
 
+	row = 0;
+	col = 0;
 	ptr = (t_param*)malloc(sizeof(t_param));
 	ptr->mlx_ptr = mlx_init();
 	if (ptr->mlx_ptr == NULL)
@@ -35,6 +39,18 @@ void		load_frame(int size_x, int size_y, char *title)
 	}
 	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, size_x, size_y, title);
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFF5C, "mode: ISO");
+	while (map[row] != NULL)
+	{
+		while (map[row][col] != -1)
+		{
+			mlx_pixel_put(ptr->mlx_ptr, ptr->win_ptr, row, col, 0xEC4B27);
+			col++;
+		}
+		row++;
+		col = 0;
+	}
+	mlx_key_hook(ptr->win_ptr, key_event, ptr);
+
 	mlx_loop(ptr->mlx_ptr);
 }
 

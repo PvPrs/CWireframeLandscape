@@ -97,5 +97,5 @@ void				ft_free_array(void **arr);
 void				ft_reinitialize(int *values);
 int					ft_2d_len(char **arr);
 int					ft_char_occur(char *str, char occur);
-
+unsigned int		ft_abs(int n);
 #endif

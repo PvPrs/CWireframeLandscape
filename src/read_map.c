@@ -49,6 +49,13 @@ int			**ft_read_map(char *file)
 	return (sort_map(head, count, (ft_strlen(head->str) / 3) + 1));
 }
 
+/**
+ * Sorts the read integers into a 2D Pointer Array
+ * @param lst represents a linked-list cointaining the strings
+ * @param size represents the amount of rows
+ * @param len represents the width of the rows
+ * @return A Pointer-to-Pointer Int Array
+ */
 int		**sort_map(t_lines *lst, int size, int len)
 {
 	int		index;
@@ -63,12 +70,9 @@ int		**sort_map(t_lines *lst, int size, int len)
 	while (row < size)
 	{
 		split_line = ft_strsplit(lst->str, ' ');
-		while (split_line[index] != NULL)
-			printf("row: %d %s\n", row, split_line[index++]);
 		map[row] = malloc(sizeof(int) * len + 1);
 		while (index < len)
 		{
-			//printf("%d\n", ft_atoi(split_line[index]));
 			map[row][index] = ft_atoi(split_line[index]);
 			index++;
 		}

@@ -6,11 +6,15 @@ LIB			= -lmlx -lft -L libft/ -L$(MINILIBX_DIRECTORY) -framework OpenGL -framewor
 
 SRC			= src/main.c \
 			src/frame.c \
-			src/read_map.c
+			src/read_map.c \
+			src/events/key_events.c \
+			src/events/mouse_events.c
 
 OBJ			= main.o \
 			frame.o \
-			read_map.o
+			read_map.o \
+			key_events.o \
+			mouse_events.o
 
 FLAGS		= -Wall -Werror -Wextra
 

@@ -84,6 +84,7 @@ SRC = string/ft_revstr.c \
 	string/ft_strtrim.c \
 	mem/ft_2d_len.c \
 	string/ft_char_occur.c \
+	utils/ft_abs.c \
 
 OBJ = ft_striter.o \
 	ft_memset.o \
@@ -154,6 +155,7 @@ OBJ = ft_striter.o \
 	ft_reinitialize.o \
 	ft_2d_len.o \
 	ft_char_occur.o \
+	ft_abs.o \
 
 all: $(NAME)
 

@@ -40,6 +40,6 @@ int main(int argc, char **argv)
 		index++;
 		printf("\n");
 	}
-	load_frame(750, 750, "FDF Codam project - Dave");
+	load_frame(750, 750, "FDF Codam project - Dave", map);
 	return 0;
 }
