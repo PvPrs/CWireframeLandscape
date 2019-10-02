@@ -39,22 +39,18 @@ void		load_frame(int size_x, int size_y, char *title, int **map)
 	}
 	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, size_x, size_y, title);
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFF5C, "mode: ISO");
+	ptr->img = mlx_new_image(ptr->mlx_ptr, 19, 11);
+	ptr->data_addr = mlx_get_data_addr(ptr->img, &ptr->bits_in_pixel, &ptr->size_line, &ptr->endian);
+	draw_line_3d(0, 18, 0, 10, ptr->img);
+	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 	while (map[row] != NULL)
-	{
-		while (map[row][col] != -1)
-		{
-			mlx_pixel_put(ptr->mlx_ptr, ptr->win_ptr, row, col, 0xEC4B27);
-			col++;
-		}
 		row++;
-		col = 0;
-	}
 	mlx_key_hook(ptr->win_ptr, key_event, ptr);
 
 	mlx_loop(ptr->mlx_ptr);
 }
 
-//void		load_pop_up(int size_x, int size_y, char *title)
-//{
-//
-//}
+void		load_pop_up(int size_x, int size_y, char *title)
+{
+
+}

@@ -24,6 +24,11 @@ typedef struct s_param
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
+	void		*img;
+	char		*data_addr;
+	int			bits_in_pixel;
+	int 		size_line;
+	int			endian;
 	char		**map;
 } t_param;
 
@@ -57,8 +62,9 @@ void		load_frame(int size_x, int size_y, char *title, int **map);
 int			**ft_read_map(char *file);
 int			**sort_map(t_lines *lst, int size, int len);
 int			ft_read(char *file);
-void		draw_line_3d(char **map, t_param *ptr);
 int			key_event(keyPressed key, t_param *mlx);
+void		draw_line_3d(int absX, int absXEnd, int absY, int absYEnd, t_param *ptr);
+
 
 
 #endif //FDF_FDF_H
