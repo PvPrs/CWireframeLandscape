@@ -18,7 +18,6 @@
 
 int main(int argc, char **argv)
 {
-	int		**map;
 	int index;
 	int ind2;
 	ind2 = 0;
@@ -29,17 +28,6 @@ int main(int argc, char **argv)
 		strerror(1);
 		exit(1);
 	}
-	map = ft_read_map(argv[1]);
-	while (map[index] != NULL)
-	{
-		while (map[index][ind2] != -1)
-		{
-			printf("%d ", map[index][ind2++]);
-		}
-		ind2 = 0;
-		index++;
-		printf("\n");
-	}
-	load_frame(750, 750, "FDF Codam project - Dave", map);
+	load_frame("FDF Codam project - Dave", argv[1]);
 	return 0;
 }

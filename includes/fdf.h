@@ -22,15 +22,36 @@ typedef struct s_lines
 
 typedef struct s_param
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	void		*img;
-	char		*data_addr;
-	int			bits_in_pixel;
-	int 		size_line;
-	int			endian;
-	char		**map;
+	int length;
+	int width;
+	int zoom;
+	int add;
+	int							**map;
+	void						*mlx_ptr;
+	void						*win_ptr;
+	void						*img;
+	char						*data_addr;
+	double						gamma;
+	double						beta;
+	double						alpha;
+	int							bits_in_pixel;
+	int 						size_line;
+	int							endian;
+	int							y;
+	int							x;
+	int							z;
+	int							new_y;
+	int							new_x;
+	int							new_z;
 } t_param;
+
+typedef struct s_field_of_vision
+{
+	int grid_width;
+	int zoom;
+	int rot_x;
+	int rot_y;
+} t_FoV;
 
 typedef enum		e_keys
 {
@@ -58,13 +79,18 @@ typedef struct		s_dim
 	int				color;
 }					t_dim;
 
-void		load_frame(int size_x, int size_y, char *title, int **map);
+void		init(t_param *ptr, char *map);
+void		load_frame(char *title, char *map);
 int			**ft_read_map(char *file);
 int			**sort_map(t_lines *lst, int size, int len);
 int			ft_read(char *file);
-int			key_event(keyPressed key, t_param *mlx);
-void		draw_line_3d(int absX, int absXEnd, int absY, int absYEnd, t_param *ptr);
-
-
+int			key_event(keyPressed key, t_param *ptr);
+void		draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd);
+void		illuminate(t_param *ptr, int color, int x, int y);
+void		draw_map(t_param *ptr);
+void		rot_x(t_param *ptr);
+void		rot_y(t_param *ptr);
+void		rot_z(t_param *ptr, int z);
+void		rotate(t_param *ptr, int z);
 
 #endif //FDF_FDF_H

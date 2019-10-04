@@ -16,18 +16,8 @@
 #include <limits.h>
 #include <stdio.h>
 
-///**
-// * Calculates the differnce between the 2 coordinates
-// * @param coord
-// * @param coord_2
-// * @return absolute integer
-// */
-//int calc_delta(int coord, int coord_2)
-//{
-//	return (abs(coord_2 - coord));
-//}
 
-void		set_gradient(t_param *ptr, int color, int x, int y)
+void		illuminate(t_param *ptr, int color, int x, int y)
 {
 	int index;
 
@@ -47,32 +37,58 @@ void		set_gradient(t_param *ptr, int color, int x, int y)
  * @param absY
  * @param absZ
  */
-void	draw_line_3d(int absX, int absXEnd, int absY, int absYEnd, t_param *ptr)
+void	draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd)
 {
-	int DeltaX = absX - absXEnd;
+	int DeltaX = absXEnd - absX;
 	int DeltaY = absYEnd - absY;
-	int dm = DeltaX > DeltaY ? DeltaX : DeltaY;
-	int i = dm; /* maximum difference */
-	printf("%d\n", i);
-	absXEnd = absYEnd = dm/2; /* error offset */
+	int leadAxis = DeltaX > DeltaY ? DeltaX : DeltaY;
+	int index = leadAxis; /* maximum difference */
+	absXEnd = absYEnd = leadAxis / 2; /* error offset */
 
 	while(1)
 	{
-		printf("%d\n", i);
-		set_gradient(ptr, 0xEC4B27, absX, absY);
-		if (i-- == 0)
+		illuminate(ptr, 0xEC4B27, absX, absY);
+		if (index-- == 0)
 			break;
 		absXEnd -= DeltaX;
 		if (absXEnd < 0)
 		{
-			absXEnd += dm;
+			absXEnd += leadAxis;
 			absX++;
 		}
 		absYEnd -= DeltaY;
 		if (absYEnd < 0)
 		{
-			absYEnd += dm;
+			absYEnd += leadAxis;
 			absY++;
 		}
+	}
+}
+
+void	draw_map(t_param *ptr)
+{
+	int row;
+	int col;
+	int width;
+
+	row = 0;
+	col = 0;
+	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
+	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
+	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
+	while (ptr->map[row] != NULL)
+	{
+		while (ptr->map[row][col] != -1)
+		{
+			width = 1; //TODO: must be a variable;
+			ptr->x = row;
+			ptr->y = col;
+			rotate(ptr, ptr->map[row][col]);
+			draw_line_3d(ptr, ptr->x * width, ptr->y * width, (ptr->x + 1) * width, ptr->y * width);
+			draw_line_3d(ptr, ptr->x * width, ptr->y * width, ptr->x * width, (ptr->y + 1) * width);
+			col++;
+		}
+		col = 0;
+		row++;
 	}
 }

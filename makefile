@@ -9,13 +9,16 @@ SRC			= src/main.c \
 			src/read_map.c \
 			src/events/key_events.c \
 			src/events/mouse_events.c \
-			src/drawing.c
+			src/drawing.c \
+			src/rot_matrix.c \
+
 OBJ			= main.o \
 			frame.o \
 			read_map.o \
 			key_events.o \
 			mouse_events.o \
-			drawing.o
+			drawing.o \
+			rot_matrix. o
 
 FLAGS		= -Wall -Werror -Wextra
 
