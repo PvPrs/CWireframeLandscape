@@ -18,19 +18,17 @@
 int		key_event(keyPressed key, t_param *ptr)
 {
 	if (key == ESC)
-	{
-		mlx_destroy_window(ptr->mlx_ptr, ptr->win_ptr);
 		exit(1);
-	}
 	if (key == UP)
-		ptr->alpha += 0.0650000;
+		ptr->alpha += 0.0150000;
 	if (key == DOWN)
-		ptr->beta += 0.0650000;
+		ptr->beta += 0.0150000;
 	if (key == RIGHT)
-		ptr->gamma += 0.0650000;
+		ptr->gamma -= 0.0150000;
 	if (key == LEFT)
-		ptr->gamma -= 0.0650000;
+		ptr->gamma += 0.0150000;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
+	load_interface(ptr);
 	return (0);
 }

@@ -47,7 +47,7 @@ void	draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd)
 
 	while(1)
 	{
-		illuminate(ptr, 0xEC4B27, absX, absY);
+		illuminate(ptr, 0xE0FFFF, absX, absY);
 		if (index-- == 0)
 			break;
 		absXEnd -= DeltaX;
@@ -69,26 +69,28 @@ void	draw_map(t_param *ptr)
 {
 	int row;
 	int col;
-	int width;
 
 	row = 0;
 	col = 0;
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
-	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 	while (ptr->map[row] != NULL)
 	{
 		while (ptr->map[row][col] != -1)
 		{
-			width = 1; //TODO: must be a variable;
-			ptr->x = row;
-			ptr->y = col;
+			ptr->x = col;
+			ptr->y = row;
+			ptr->s_x = col;
+			ptr->s_y = row;
 			rotate(ptr, ptr->map[row][col]);
-			draw_line_3d(ptr, ptr->x * width, ptr->y * width, (ptr->x + 1) * width, ptr->y * width);
-			draw_line_3d(ptr, ptr->x * width, ptr->y * width, ptr->x * width, (ptr->y + 1) * width);
+
+//			printf("s_x: %d, x: %d - s_y: %d, y: %d\n", ptr->s_x, ptr->x, ptr->s_y, ptr->y);
+			draw_line_3d(ptr, ptr->s_x, ptr->s_y, ptr->x, ptr->y + ptr->zoom);
+			draw_line_3d(ptr, ptr->s_x, ptr->s_y, ptr->x + ptr->zoom, ptr->y);
 			col++;
 		}
 		col = 0;
 		row++;
 	}
+	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 }
