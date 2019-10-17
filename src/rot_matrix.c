@@ -34,14 +34,16 @@ void	rot_y(int *x, int *z, double beta)
 
 void	center(t_param *ptr)
 {
-	ptr->x += ptr->width / 4;
-	ptr->y += ptr->length / 4;
+	ptr->points.startX += ptr->width / 4;
+	ptr->points.startY += ptr->length / 4;
+	ptr->points.endX += ptr->width / 4;
+	ptr->points.endY += ptr->length / 4;
 }
 
 void	rotate(t_param *ptr)
 {
-	rot_z(&ptr->x, &ptr->y, ptr->gamma);
-	rot_x(&ptr->y, &ptr->z, ptr->alpha);
-	rot_y(&ptr->x, &ptr->z, ptr->beta);
+	rot_z(&ptr->points.endX, &ptr->points.endY, ptr->gamma);
+	rot_x(&ptr->points.endY, &ptr->points.z, ptr->alpha);
+	rot_y(&ptr->points.endX, &ptr->points.z, ptr->beta);
 	center(ptr);
 }

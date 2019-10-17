@@ -16,12 +16,14 @@
 #include <limits.h>
 #include <stdio.h>
 
+#define X 1
+#define Y 0
 
-void		illuminate(t_param *ptr, int color, int x, int y)
+void		illuminate(t_param *ptr, int color)
 {
 	int index;
 
-	index = (x * ptr->bits_in_pixel / 8) + (y * ptr->size_line);
+	index = (ptr->points.startX * ptr->bits_in_pixel / 8) + (ptr->points.startY * ptr->size_line);
 	ptr->data_addr[index] = color; // B — Blue
 	ptr->data_addr[++index] = color >> 8; // G — Green
 	ptr->data_addr[++index] = color >> 16; // R — Red
@@ -37,45 +39,53 @@ void		illuminate(t_param *ptr, int color, int x, int y)
  * @param absY
  * @param absZ
  */
-void	draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd)
+void	draw_line_3d(t_param *ptr)
 {
-	int DeltaX = absXEnd - absX;
-	int DeltaY = absYEnd - absY;
-	int leadAxis = DeltaX > DeltaY ? DeltaX : DeltaY;
-	int index = leadAxis; /* maximum difference */
-	absXEnd = absYEnd = leadAxis / 2; /* error offset */
+	int deltaX;
+	int deltaY;
+	int leadAxis;
+	int index;
 
+	deltaX = ptr->points.endX - ptr->points.startX;
+	deltaY = ptr->points.endY - ptr->points.startY;
+	leadAxis = deltaX > deltaY ? deltaX : deltaY;
+	index = leadAxis; /* maximum difference */
+	ptr->points.endX = ptr->points.endY = leadAxis / 2; /* error offset */
+	printf("gets here once\n");
 	while(1)
 	{
-		illuminate(ptr, 0xE0FFFF, absX, absY);
+		illuminate(ptr, 0xE0FFFF);
 		if (index-- == 0)
 			break;
-		absXEnd -= DeltaX;
-		if (absXEnd < 0)
+		ptr->points.endX -= deltaX;
+		if (ptr->points.endX < 0)
 		{
-			absXEnd += leadAxis;
-			absX++;
+			ptr->points.endX += leadAxis;
+			ptr->points.startX++;
 		}
-		absYEnd -= DeltaY;
-		if (absYEnd < 0)
+		ptr->points.endY -= deltaY;
+		if (ptr->points.endY < 0)
 		{
-			absYEnd += leadAxis;
-			absY++;
+			ptr->points.endY += leadAxis;
+			ptr->points.startY++;
 		}
 	}
 }
 
 /**
- * @todo: Make a modular rotation system that takes in a x, y, z coordinate, and a modular draw line function.
+ *
  *
  * @param ptr
+ * @variable axisFlag represents a flag to represent the current Axis being drawn.
  */
 
 void	draw_map(t_param *ptr)
 {
 	int row;
 	int col;
+	int axisFlag;
 
+	axisFlag = 0;
 	row = 0;
 	col = 0;
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
@@ -84,36 +94,25 @@ void	draw_map(t_param *ptr)
 	{
 		while (ptr->map[row][col] != -1)
 		{
-			ptr->x = col * ptr->zoom;
-			ptr->y = row * ptr->zoom;
-			ptr->z = ptr->map[row][col] * ptr->zoom;
+			ptr->points.startX = (row * ptr->zoom);
+			ptr->points.startY = col * ptr->zoom;
+			ptr->points.endX = axisFlag == X ? (row * ptr->zoom) + ptr->zoom : ptr->points.startX;
+			ptr->points.endY = axisFlag == Y ? (col * ptr->zoom) + ptr->zoom : ptr->points.startY;
+			ptr->points.z = ptr->map[row][col] * ptr->zoom;
+//			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
 			rotate(ptr);
-			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x, ptr->y + ptr->zoom);
-			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x + ptr->zoom, ptr->y);
+			draw_line_3d(ptr);
+			if (axisFlag == Y)		//@todo: Make it so that every loop, does both an endY and endX Increased draw.
+			{
+				axisFlag = X;
+				continue;
+			}
 			col++;
+			axisFlag = Y;
 		}
+		printf("row: %d\n", row);
 		col = 0;
 		row++;
 	}
 	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 }
-
-///**
-// * Sets and Resets the map to its default coordinates.
-// * @param ptr
-// */
-//void	rotate_coordinate(t_param *ptr)
-//{
-//	while (ptr->map[row++] != NULL)
-//	{
-//		while (ptr->map[row][col++] != -1)
-//		{
-//			ptr->x = col;
-//			ptr->y = row;
-//			rot_z()
-//			col++;
-//		}
-//		col = 0;
-//		row++;
-//	}
-//}

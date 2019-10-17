@@ -45,35 +45,35 @@ typedef enum		e_mouse
 	SCROLL_DOWN = 5,
 } mousePressed;
 
+typedef struct s_points
+{
+	int startX;
+	int startY;
+	int endX;
+	int endY;
+	int z;
+} t_points;
+
 typedef struct s_param
 {
-	int							length;
-	int							width;
-	fieldVision					fov;
-	double						zoom;
-	int							**map;
 	void						*mlx_ptr;
 	void						*win_ptr;
 	void						*img;
 	char						*data_addr;
-	double						gamma;
-	double						beta;
-	double						alpha;
 	int							bits_in_pixel;
 	int 						size_line;
 	int							endian;
-	int							y;
-	int							x;
-	int							z;
+	int							width;
+	int							length;
+	double						zoom;
+	int							**map;
+	double						gamma;
+	double						beta;
+	double						alpha;
+	t_points					points;
+	fieldVision					fov;
 } t_param;
 
-typedef struct		s_dim
-{
-	int				x;
-	int				y;
-	int				z;
-	int				color;
-}					t_dim;
 
 void		load_frame(char *title, char *map);
 int			close_frame(void *ptr);
@@ -84,8 +84,8 @@ int			**sort_map(t_lines *lst, int size, int len);
 int			ft_read(char *file);
 int			key_event(keyPressed key, t_param *ptr);
 int			mouse_event(mousePressed mouse, int x, int y, t_param *ptr);
-void		draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd);
-void		illuminate(t_param *ptr, int color, int x, int y);
+void		draw_line_3d(t_param *ptr);
+void		illuminate(t_param *ptr, int color);
 void		draw_map(t_param *ptr);
 void		rot_x(int *y, int *z, double beta);
 void		rot_y(int *x, int *z, double alpha);
