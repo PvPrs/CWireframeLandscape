@@ -86,13 +86,10 @@ void	draw_map(t_param *ptr)
 		{
 			ptr->x = col;
 			ptr->y = row;
-			ptr->s_x = col;
-			ptr->s_y = row;
-			rotate(ptr, ptr->map[row][col]);
-
-			printf("s_x: %d, x: %d - s_y: %d, y: %d\n", ptr->s_x, ptr->x, ptr->s_y, ptr->y);
-			draw_line_3d(ptr, ptr->s_x, ptr->s_y, ptr->x, ptr->y + ptr->zoom);
-			draw_line_3d(ptr, ptr->s_x, ptr->s_y, ptr->x + ptr->zoom, ptr->y);
+			ptr->z = ptr->map[row][col];
+			rotate(ptr);
+			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x, ptr->y + ptr->zoom);
+			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x + ptr->zoom, ptr->y);
 			col++;
 		}
 		col = 0;
@@ -100,3 +97,23 @@ void	draw_map(t_param *ptr)
 	}
 	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 }
+
+///**
+// * Sets and Resets the map to its default coordinates.
+// * @param ptr
+// */
+//void	rotate_coordinate(t_param *ptr)
+//{
+//	while (ptr->map[row++] != NULL)
+//	{
+//		while (ptr->map[row][col++] != -1)
+//		{
+//			ptr->x = col;
+//			ptr->y = row;
+//			rot_z()
+//			col++;
+//		}
+//		col = 0;
+//		row++;
+//	}
+//}

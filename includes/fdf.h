@@ -96,10 +96,10 @@ int			mouse_event(mousePressed mouse, int x, int y, t_param *ptr);
 void		draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd);
 void		illuminate(t_param *ptr, int color, int x, int y);
 void		draw_map(t_param *ptr);
-void		rot_x(t_param *ptr);
-void		rot_y(t_param *ptr);
-void		rot_z(t_param *ptr, int z);
-void		rotate(t_param *ptr, int z);
+void		rot_x(int *y, int *z, double beta);
+void		rot_y(int *x, int *z, double alpha);
+void		rot_z(int *x, int *y, double gamma);
+void		rotate(t_param *ptr);
 int			mouse_move(int x, int y, t_param *ptr);
 
 #endif //FDF_FDF_H
