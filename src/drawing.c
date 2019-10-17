@@ -65,6 +65,11 @@ void	draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd)
 	}
 }
 
+/**
+ * @todo: Make a modular rotation system that takes in a grid or list, and a modular draw line function.
+ * @param ptr
+ */
+
 void	draw_map(t_param *ptr)
 {
 	int row;
@@ -84,7 +89,7 @@ void	draw_map(t_param *ptr)
 			ptr->s_y = row;
 			rotate(ptr, ptr->map[row][col]);
 
-//			printf("s_x: %d, x: %d - s_y: %d, y: %d\n", ptr->s_x, ptr->x, ptr->s_y, ptr->y);
+			printf("s_x: %d, x: %d - s_y: %d, y: %d\n", ptr->s_x, ptr->x, ptr->s_y, ptr->y);
 			draw_line_3d(ptr, ptr->s_x, ptr->s_y, ptr->x, ptr->y + ptr->zoom);
 			draw_line_3d(ptr, ptr->s_x, ptr->s_y, ptr->x + ptr->zoom, ptr->y);
 			col++;
