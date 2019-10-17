@@ -66,7 +66,8 @@ void	draw_line_3d(t_param *ptr, int absX, int absY, int absXEnd, int absYEnd)
 }
 
 /**
- * @todo: Make a modular rotation system that takes in a grid or list, and a modular draw line function.
+ * @todo: Make a modular rotation system that takes in a x, y, z coordinate, and a modular draw line function.
+ *
  * @param ptr
  */
 
