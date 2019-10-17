@@ -31,9 +31,7 @@ void		load_frame(char *title, char *map)
 	init(ptr, map);
 	ptr->mlx_ptr = mlx_init();
 	if (ptr->mlx_ptr == NULL)
-	{
 		printf("Failed to initialize connection to the graphical system.\n");
-	}
 	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->length, title);
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
@@ -41,11 +39,13 @@ void		load_frame(char *title, char *map)
 	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr); // Mouse Presses
 	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr); // Red Close Button
 //	mlx_hook(ptr->win_ptr, 6, 0, mouse_move, ptr); // Mouse Movement
-	//mlx_mouse_hook(ptr->win_ptr, mouse_event, ptr);
 	draw_map(ptr);
 	mlx_loop(ptr->mlx_ptr);
 }
-
+/**
+ * Load any additional interfaces
+ * @param ptr
+ */
 void		load_interface(t_param *ptr)
 {
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFF5C, ptr->fov == PARALLEL ? "mode: PARALLEL" : "mode: ISOMETRIC");
@@ -58,18 +58,19 @@ int		close_frame(void *ptr)
 	exit(0);
 }
 
+/**
+ * Initialize all the required variables.
+ * @param ptr
+ * @param map
+ */
 void		init(t_param *ptr, char *map)
 {
 	ptr->map = ft_read_map(map);
 	ptr->width = 1200;
 	ptr->length = 750;
 	ptr->zoom = 20;
-	ptr->add = 1;
 	ptr->beta = 0;
 	ptr->alpha = 0;
 	ptr->gamma = 0;
-	ptr->new_x = 0;
-	ptr->new_y = 0;
-	ptr->new_x = 0;
 	ptr->fov = PARALLEL;
 }

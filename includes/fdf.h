@@ -47,11 +47,10 @@ typedef enum		e_mouse
 
 typedef struct s_param
 {
-	int length;
-	int width;
+	int							length;
+	int							width;
 	fieldVision					fov;
 	double						zoom;
-	int							add;
 	int							**map;
 	void						*mlx_ptr;
 	void						*win_ptr;
@@ -63,17 +62,9 @@ typedef struct s_param
 	int							bits_in_pixel;
 	int 						size_line;
 	int							endian;
-	int							len;
-	int							size;
 	int							y;
 	int							x;
 	int							z;
-	int							s_y;
-	int							s_x;
-	int							s_z;
-	int							new_y;
-	int							new_x;
-	int							new_z;
 } t_param;
 
 typedef struct		s_dim

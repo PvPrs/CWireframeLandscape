@@ -20,13 +20,13 @@ int		key_event(keyPressed key, t_param *ptr)
 	if (key == ESC)
 		exit(1);
 	if (key == UP)
-		ptr->alpha += 0.0150000;
+		ptr->alpha += 0.0250000;
 	if (key == DOWN)
-		ptr->beta += 0.0150000;
+		ptr->beta += 0.025000;
 	if (key == RIGHT)
-		ptr->gamma -= 0.0150000;
+		ptr->gamma -= 0.0250000;
 	if (key == LEFT)
-		ptr->gamma += 0.0150000;
+		ptr->gamma += 0.0250000;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	load_interface(ptr);

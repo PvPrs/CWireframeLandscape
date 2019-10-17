@@ -84,9 +84,9 @@ void	draw_map(t_param *ptr)
 	{
 		while (ptr->map[row][col] != -1)
 		{
-			ptr->x = col;
-			ptr->y = row;
-			ptr->z = ptr->map[row][col];
+			ptr->x = col * ptr->zoom;
+			ptr->y = row * ptr->zoom;
+			ptr->z = ptr->map[row][col] * ptr->zoom;
 			rotate(ptr);
 			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x, ptr->y + ptr->zoom);
 			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x + ptr->zoom, ptr->y);

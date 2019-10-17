@@ -25,10 +25,6 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 		ptr->zoom -= 0.20;
 	if (mouse == SCROLL_UP)
 		ptr->zoom += 0.20;
-	//if (x >= topleftX && x <= bottomrightX && y >= topleftY && x<= bottomrightY)
-//	{
-//		ptr->fov =
-//	}
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	load_interface(ptr);
