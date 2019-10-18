@@ -22,12 +22,19 @@
 void		illuminate(t_param *ptr, int color)
 {
 	int index;
+	int xAxis;
+	int yAxis;
 
-	index = (ptr->points.startX * ptr->bits_in_pixel / 8) + (ptr->points.startY * ptr->size_line);
-	ptr->data_addr[index] = color; // B — Blue
-	ptr->data_addr[++index] = color >> 8; // G — Green
-	ptr->data_addr[++index] = color >> 16; // R — Red
-	ptr->data_addr[++index] = 0; // Alpha channel
+	xAxis = ptr->points.startX;
+	yAxis = ptr->points.startY;
+	if (xAxis >= 0 && xAxis <= ptr->width && yAxis >= 0 && yAxis <= ptr->length)
+	{
+		index = (xAxis * ptr->size_line) + (yAxis * ptr->bits_in_pixel / 8);
+		ptr->data_addr[index] = color; // B — Blue
+		ptr->data_addr[++index] = color >> 8; // G — Green
+		ptr->data_addr[++index] = color >> 16; // R — Red
+		//ptr->data_addr[++index] = 0; // Alpha channel
+	}
 }
 
 /**
@@ -51,7 +58,6 @@ void	draw_line_3d(t_param *ptr)
 	leadAxis = deltaX > deltaY ? deltaX : deltaY;
 	index = leadAxis; /* maximum difference */
 	ptr->points.endX = ptr->points.endY = leadAxis / 2; /* error offset */
-	printf("gets here once\n");
 	while(1)
 	{
 		illuminate(ptr, 0xE0FFFF);
@@ -94,15 +100,15 @@ void	draw_map(t_param *ptr)
 	{
 		while (ptr->map[row][col] != -1)
 		{
-			ptr->points.startX = (row * ptr->zoom);
+			ptr->points.startX = row * ptr->zoom;
 			ptr->points.startY = col * ptr->zoom;
 			ptr->points.endX = axisFlag == X ? (row * ptr->zoom) + ptr->zoom : ptr->points.startX;
 			ptr->points.endY = axisFlag == Y ? (col * ptr->zoom) + ptr->zoom : ptr->points.startY;
 			ptr->points.z = ptr->map[row][col] * ptr->zoom;
-//			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
+			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
 			rotate(ptr);
 			draw_line_3d(ptr);
-			if (axisFlag == Y)		//@todo: Make it so that every loop, does both an endY and endX Increased draw.
+			if (axisFlag == Y)
 			{
 				axisFlag = X;
 				continue;
