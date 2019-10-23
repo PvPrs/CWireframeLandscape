@@ -30,12 +30,14 @@ void		illuminate(t_param *ptr, int color)
 	yAxis = ptr->points.startY;
 	if (xAxis >= 0 && xAxis <= ptr->width && yAxis >= 0 && yAxis <= ptr->length)
 	{
-		index = (xAxis * ptr->bits_in_pixel / 8) + (yAxis * ptr->size_line);
+		index = (xAxis * ptr->size_line) + (yAxis * ptr->bits_in_pixel / 8);
 		ptr->data_addr[index] = color; // B — Blue
 		index++;
 		ptr->data_addr[index] = color >> 8; // G — Green
 		index++;
-		ptr->data_addr[++index] = color >> 16; // R — Red
+		ptr->data_addr[index] = color >> 16; // R — Red
+		index++;
+		ptr->data_addr[index] = 10; // Alpha channel
 	}
 }
 
@@ -54,16 +56,12 @@ void	draw_line_3d(t_param *ptr)
 	int deltaX;
 	int deltaY;
 	int leadAxis;
-	int index_x;
 	int index;
-	int index_y;
 
-	deltaX = abs(ptr->points.endX - ptr->points.startX);
-	deltaY = abs(ptr->points.endY - ptr->points.startY);
+	deltaX = ptr->points.endX - ptr->points.startX;
+	deltaY = ptr->points.endY - ptr->points.startY;
 	leadAxis = deltaX > deltaY ? deltaX : deltaY;
-	index_x = ptr->points.endX >= ptr->points.startX ? 1 : -1;
-	index_y = ptr->points.endY >= ptr->points.startY ? 1 : -1;
-	index = leadAxis;
+	index = leadAxis; /* maximum difference */
 	ptr->points.endX = ptr->points.endY = leadAxis / 2; /* error offset */
 	while(1)
 	{
@@ -71,15 +69,15 @@ void	draw_line_3d(t_param *ptr)
 		if (index-- == 0)
 			break;
 		ptr->points.endX -= deltaX;
-		if (ptr->points.startX <= ptr->points.endX)
+		if (ptr->points.endX < 0)
 		{
-			ptr->points.endX += index_x;
+			ptr->points.endX += leadAxis;
 			ptr->points.startX++;
 		}
 		ptr->points.endY -= deltaY;
-		if (ptr->points.startX <= ptr->points.endX)
+		if (ptr->points.endY < 0)
 		{
-			ptr->points.endY += index_y;
+			ptr->points.endY += leadAxis;
 			ptr->points.startY++;
 		}
 	}
@@ -132,13 +130,14 @@ void	draw_map(t_param *ptr)
 	{
 		while (ptr->map[row][col] != -1)
 		{
-			ptr->points.startX = col * ptr->zoom;
-			ptr->points.startY = row * ptr->zoom;
-			ptr->points.endX = axisFlag == X ? (col * ptr->zoom) + ptr->zoom : ptr->points.startX;
-			ptr->points.endY = axisFlag == Y ? (row * ptr->zoom) + ptr->zoom : ptr->points.startY;
+			ptr->points.startX = row * ptr->zoom;
+			ptr->points.startY = col * ptr->zoom;
+			ptr->points.endX = axisFlag == X ? (row * ptr->zoom) + ptr->zoom : ptr->points.startX;
+			ptr->points.endY = axisFlag == Y ? (col * ptr->zoom) + ptr->zoom : ptr->points.startY;
 			ptr->points.z = ptr->map[row][col] * ptr->zoom;
-			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
+//			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
 			rotate(ptr);
+			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
 			draw_line_3d(ptr);
 			if (axisFlag == Y)
 			{
