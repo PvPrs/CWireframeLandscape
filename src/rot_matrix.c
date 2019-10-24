@@ -14,36 +14,46 @@
 #include <math.h>
 #include <stdio.h>
 
-void	rot_z(int *x, int *y, double gamma)
+void	rot_z(double *x, double *y, double gamma)
 {
 	*x = (*x * cos(gamma) - sin(gamma) * *y);
 	*y = (*x * sin(gamma) + *y * cos(gamma));
 }
 
-void	rot_x(int *y, int *z, double alpha)
+void	rot_x(double *y, double *z, double alpha)
 {
 	*y = *y * cos(alpha) - *z * sin(alpha);
 	*z = sin(alpha) * (*y) + cos(alpha) * (*z);
 }
 
-void	rot_y(int *x, int *z, double beta)
+void	rot_y(double *x, double *z, double beta)
 {
 	*x = *x * cos(beta) + sin(beta) * (*z);
 	*z = -sin(beta) * (*x) + cos(beta) * (*z);
 }
 
-void	center(t_param *ptr)
+void	position(t_param *ptr, int flag)
 {
-	ptr->points.startX += ptr->width / 4;
-	ptr->points.startY += ptr->length / 4;
-	ptr->points.endX += ptr->width / 4;
-	ptr->points.endY += ptr->length / 4;
+	if (flag == 0)
+	{
+		ptr->start.x += ptr->width / 4;
+		ptr->start.y += ptr->length / 4;
+		ptr->end.x += ptr->width / 4;
+		ptr->end.y += ptr->length / 4;
+	}
+	else
+	{
+		ptr->start.x -= ptr->width / 4;
+		ptr->start.y -= ptr->length / 4;
+		ptr->end.x -= ptr->width / 4;
+		ptr->end.y -= ptr->length / 4;
+	}
 }
 
 void	rotate(t_param *ptr)
 {
-	rot_z(&ptr->points.endX, &ptr->points.endY, ptr->gamma);
-	rot_x(&ptr->points.endY, &ptr->points.z, ptr->alpha);
-	rot_y(&ptr->points.endX, &ptr->points.z, ptr->beta);
-	center(ptr);
+	rot_z(&ptr->end.x, &ptr->end.y, ptr->gamma);
+	rot_x(&ptr->end.y, &ptr->end.z, ptr->alpha);
+	rot_y(&ptr->end.x, &ptr->end.z, ptr->beta);
+	position(ptr, 0);
 }

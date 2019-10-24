@@ -68,7 +68,7 @@ void		init(t_param *ptr, char *map)
 	ptr->map = ft_read_map(map);
 	ptr->width = 1200;
 	ptr->length = 750;
-	ptr->zoom = 20;
+	ptr->zoom = 10;
 	ptr->beta = 0;
 	ptr->alpha = 0;
 	ptr->gamma = 0;

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+#include "../libft/includes/libft.h"
 #include "../minilibx_macos/mlx.h"
 #include <math.h>
 #include <limits.h>
@@ -26,8 +27,8 @@ void		illuminate(t_param *ptr, int color)
 	int xAxis;
 	int yAxis;
 
-	xAxis = ptr->points.startX;
-	yAxis = ptr->points.startY;
+	xAxis = ptr->start.x;
+	yAxis = ptr->start.y;
 	if (xAxis >= 0 && xAxis <= ptr->width && yAxis >= 0 && yAxis <= ptr->length)
 	{
 		index = (xAxis * ptr->size_line) + (yAxis * ptr->bits_in_pixel / 8);
@@ -41,72 +42,30 @@ void		illuminate(t_param *ptr, int color)
 	}
 }
 
-/**
- * Rersources for Bresenham Algorithm
- * https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
- * http://graphics.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf - good Explanation
- * http://members.chello.at/~easyfilter/bresenham.html - sample code
- * @param absX
- * @param absY
- * @param absZ
- * @TODO: This bresenham algo needs fixing and is the cause of the incorrect drawing.
- */
-void	draw_line_3d(t_param *ptr)
+void		draw_line_3d(t_param *ptr)
 {
-	int deltaX;
-	int deltaY;
-	int leadAxis;
-	int index;
+	double deltaX;
+	double deltaY;
+	double leadAxis;
+	double xincrement;
+	double index;
+	double yincrement;
+	printf("start: %f, %f   end: %f, %f\n", ptr->start.x, ptr->start.y, ptr->end.x, ptr->end.y);
 
-	deltaX = ptr->points.endX - ptr->points.startX;
-	deltaY = ptr->points.endY - ptr->points.startY;
-	leadAxis = deltaX > deltaY ? deltaX : deltaY;
-	index = leadAxis; /* maximum difference */
-	ptr->points.endX = ptr->points.endY = leadAxis / 2; /* error offset */
-	while(1)
+	index = 0;
+	deltaX = ptr->end.x - ptr->start.x;
+	deltaY = ptr->end.y - ptr->start.y;
+	leadAxis = fabs(deltaX) > fabs(deltaY) ? deltaX : deltaY;
+	xincrement = deltaX / (float) leadAxis;
+	yincrement = deltaY / (float) leadAxis;
+	while (index < leadAxis)
 	{
+		ptr->start.x += xincrement;
+		ptr->start.y += yincrement;
 		illuminate(ptr, 0xE0FFFF);
-		if (index-- == 0)
-			break;
-		ptr->points.endX -= deltaX;
-		if (ptr->points.endX < 0)
-		{
-			ptr->points.endX += leadAxis;
-			ptr->points.startX++;
-		}
-		ptr->points.endY -= deltaY;
-		if (ptr->points.endY < 0)
-		{
-			ptr->points.endY += leadAxis;
-			ptr->points.startY++;
-		}
+		index++;
 	}
 }
-
-//void		ft_bresenham(t_data *data, t_pixel *p0, t_pixel *p1)
-//{
-//	t_draw	draw;
-//
-//	draw.dx = fabs(p1->x - p0->x);
-//	draw.dy = fabs(p1->y - p0->y);
-//	draw.sx = p1->x >= p0->x ? 1 : -1;
-//	draw.sy = p1->y >= p0->y ? 1 : -1;
-//	if (draw.dy <= draw.dx)
-//	{
-//		draw.d = (draw.dy << 1) - draw.dx;
-//		draw.d1 = draw.dy << 1;
-//		draw.d2 = (draw.dy - draw.dx) << 1;
-//		ft_horizontal(data, p0, p1, draw);
-//	}
-//	else
-//	{
-//		draw.d = (draw.dx << 1) - draw.dy;
-//		draw.d1 = draw.dx << 1;
-//		draw.d2 = (draw.dx - draw.dy) << 1;
-//		ft_vertical(data, p0, p1, draw);
-//	}
-//}
-
 
 /**
  *
@@ -117,71 +76,75 @@ void	draw_line_3d(t_param *ptr)
 
 void	draw_map(t_param *ptr)
 {
-	int row;
-	int col;
-	int axisFlag;
-
-	axisFlag = 0;
-	row = 0;
-	col = 0;
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
+	draw_horizontal(ptr);
+	draw_vertical(ptr);
+	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
+}
+
+void	draw_horizontal(t_param *ptr)
+{
+	int row;
+	int col;
+	t_points *temp;
+
+	row = 0;
+	col = 0;
+	temp = malloc(sizeof(t_points));
 	while (ptr->map[row] != NULL)
 	{
+		ptr->start.x = 0;
 		while (ptr->map[row][col] != -1)
 		{
-			ptr->points.startX = row * ptr->zoom;
-			ptr->points.startY = col * ptr->zoom;
-			ptr->points.endX = axisFlag == X ? (row * ptr->zoom) + ptr->zoom : ptr->points.startX;
-			ptr->points.endY = axisFlag == Y ? (col * ptr->zoom) + ptr->zoom : ptr->points.startY;
-			ptr->points.z = ptr->map[row][col] * ptr->zoom;
-//			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
+			ptr->end.x = (ptr->start.x + ptr->zoom);
+			ptr->end.y = (ptr->start.y);
+			ptr->end.z = ptr->map[row][col];
+			*temp = ptr->end;
 			rotate(ptr);
-			printf("flag: %d, start: %d, %d - end %d, %d\n", axisFlag, ptr->points.startX, ptr->points.startY, ptr->points.endX, ptr->points.endY);
 			draw_line_3d(ptr);
-			if (axisFlag == Y)
-			{
-				axisFlag = X;
-				continue;
-			}
+//			printf("ptr Xend: %d", ptr->end.x);
+			position(ptr, 1);
+			ptr->start = ptr->end;
+			ptr->end = *temp;
 			col++;
-			axisFlag = Y;
 		}
-		printf("row: %d\n", row);
+		ptr->end.y += ptr->zoom;
+		ptr->start.y = ptr->end.y;
 		col = 0;
 		row++;
 	}
-	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
+	ptr->start.x = 0;
 }
-///**
-// * @todo: Make a modular rotation system that takes in a x, y, z coordinate, and a modular draw line function.
-// *
-// * @param ptr
-// */
-//
-//void	draw_map(t_param *ptr)
-//{
-//	int row;
-//	int col;
-//
-//	row = 0;
-//	col = 0;
-//	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
-//	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
-//	while (ptr->map[row] != NULL)
-//	{
-//		while (ptr->map[row][col] != -1)
-//		{
-//			ptr->x = col * ptr->zoom;
-//			ptr->y = row * ptr->zoom;
-//			ptr->z = ptr->map[row][col] * ptr->zoom;
-//			rotate(ptr);
-//			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x, ptr->y + ptr->zoom);
-//			draw_line_3d(ptr, ptr->x, ptr->y, ptr->x + ptr->zoom, ptr->y);
-//			col++;
-//		}
-//		col = 0;
-//		row++;
-//	}
-//	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
-//}
+
+void	draw_vertical(t_param *ptr)
+{
+	int row;
+	int col;
+	t_points *temp;
+
+	row = 0;
+	col = 0;
+	temp = malloc(sizeof(t_points));
+	while (ptr->map[row] != NULL)
+	{
+		ptr->start.y = 0;
+		while (ptr->map[row][col] != -1)
+		{
+			ptr->end.x = (ptr->start.x);
+			ptr->end.y = (ptr->start.y + ptr->zoom);
+			ptr->end.z = ptr->map[row][col];
+			*temp = ptr->end;
+			rotate(ptr);
+			draw_line_3d(ptr);
+			position(ptr, 1);
+			ptr->start = ptr->end;
+			ptr->end = *temp;
+			col++;
+		}
+		ptr->end.x += ptr->zoom;
+		ptr->start.x = ptr->end.x;
+		col = 0;
+		row++;
+	}
+}

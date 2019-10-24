@@ -47,11 +47,9 @@ typedef enum		e_mouse
 
 typedef struct s_points
 {
-	int startX;
-	int startY;
-	int endX;
-	int endY;
-	int z;
+	double x;
+	double y;
+	double z;
 } t_points;
 
 typedef struct s_param
@@ -70,7 +68,8 @@ typedef struct s_param
 	double						gamma;
 	double						beta;
 	double						alpha;
-	t_points					points;
+	t_points					start;
+	t_points					end;
 	fieldVision					fov;
 } t_param;
 
@@ -87,10 +86,13 @@ int			mouse_event(mousePressed mouse, int x, int y, t_param *ptr);
 void		draw_line_3d(t_param *ptr);
 void		illuminate(t_param *ptr, int color);
 void		draw_map(t_param *ptr);
-void		rot_x(int *y, int *z, double beta);
-void		rot_y(int *x, int *z, double alpha);
-void		rot_z(int *x, int *y, double gamma);
+void		draw_horizontal(t_param *ptr);
+void		draw_vertical(t_param *ptr);
+void		rot_x(double *y, double *z, double beta);
+void		rot_y(double *x, double *z, double alpha);
+void		rot_z(double *x, double *y, double gamma);
 void		rotate(t_param *ptr);
 int			mouse_move(int x, int y, t_param *ptr);
+void		position(t_param *ptr, int flag);
 
 #endif //FDF_FDF_H
