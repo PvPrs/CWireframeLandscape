@@ -20,6 +20,8 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 	{
 		if (x >= 17 && x <= 175 && y >= 27 && y <= 41)
 			ptr->fov = (ptr->fov == ISOMETRIC ? PARALLEL : ISOMETRIC);
+		else
+			return (0);
 	}
 	if (mouse == SCROLL_DOWN)
 		ptr->zoom -= 0.20;
@@ -27,7 +29,6 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 		ptr->zoom += 0.20;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
-	load_interface(ptr);
 	return (0);
 }
 

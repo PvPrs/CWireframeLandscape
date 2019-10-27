@@ -38,7 +38,7 @@ void		load_frame(char *title, char *map)
 	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr); // Key Presses
 	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr); // Mouse Presses
 	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr); // Red Close Button
-//	mlx_hook(ptr->win_ptr, 6, 0, mouse_move, ptr); // Mouse Movement
+	mlx_hook(ptr->win_ptr, 6, 0, mouse_move, ptr); // Mouse Movement
 	draw_map(ptr);
 	mlx_loop(ptr->mlx_ptr);
 }
@@ -65,12 +65,20 @@ int		close_frame(void *ptr)
  */
 void		init(t_param *ptr, char *map)
 {
-	ptr->map = ft_read_map(map);
 	ptr->width = 1200;
 	ptr->length = 750;
-	ptr->zoom = 10;
+	ptr->zoom = 20;
 	ptr->beta = 0;
 	ptr->alpha = 0;
 	ptr->gamma = 0;
+	ptr->map_width = 0;
+	ptr->map_height = 0;
+	ptr->start.x = 0;
+	ptr->start.y = 0;
+	ptr->start.z = 0;
+	ptr->end.x = 0;
+	ptr->end.y = 0;
+	ptr->end.z = 0;
 	ptr->fov = PARALLEL;
+	ptr->map = ft_read_map(map, ptr);
 }

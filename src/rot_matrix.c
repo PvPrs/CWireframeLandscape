@@ -16,8 +16,8 @@
 
 void	rot_z(double *x, double *y, double gamma)
 {
-	*x = (*x * cos(gamma) - sin(gamma) * *y);
-	*y = (*x * sin(gamma) + *y * cos(gamma));
+	*x = *x * cos(gamma) - sin(gamma) * *y;
+	*y = *x * sin(gamma) + *y * cos(gamma);
 }
 
 void	rot_x(double *y, double *z, double alpha)
@@ -36,24 +36,24 @@ void	position(t_param *ptr, int flag)
 {
 	if (flag == 0)
 	{
-		ptr->start.x += ptr->width / 4;
-		ptr->start.y += ptr->length / 4;
-		ptr->end.x += ptr->width / 4;
-		ptr->end.y += ptr->length / 4;
+		ptr->start.x += ptr->width / 5;
+		ptr->start.y += ptr->length / 5;
+		ptr->end.x += ptr->width / 5;
+		ptr->end.y += ptr->length / 5;
 	}
 	else
 	{
-		ptr->start.x -= ptr->width / 4;
-		ptr->start.y -= ptr->length / 4;
-		ptr->end.x -= ptr->width / 4;
-		ptr->end.y -= ptr->length / 4;
+		ptr->start.x -= ptr->width / 5;
+		ptr->start.y -= ptr->length / 5;
+		ptr->end.x -= ptr->width / 5;
+		ptr->end.y -= ptr->length / 5;
 	}
 }
 
 void	rotate(t_param *ptr)
 {
+	position(ptr, 0);
 	rot_z(&ptr->end.x, &ptr->end.y, ptr->gamma);
 	rot_x(&ptr->end.y, &ptr->end.z, ptr->alpha);
 	rot_y(&ptr->end.x, &ptr->end.z, ptr->beta);
-	position(ptr, 0);
 }

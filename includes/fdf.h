@@ -65,6 +65,8 @@ typedef struct s_param
 	int							length;
 	double						zoom;
 	int							**map;
+	int							map_width;
+	int							map_height;
 	double						gamma;
 	double						beta;
 	double						alpha;
@@ -76,10 +78,10 @@ typedef struct s_param
 
 void		load_frame(char *title, char *map);
 int			close_frame(void *ptr);
-int			**ft_read_map(char *file);
+int			**ft_read_map(char *file, t_param *ptr);
 void		init(t_param *ptr, char *map);
 void		load_interface(t_param *ptr);
-int			**sort_map(t_lines *lst, int size, int len);
+int			**sort_map(t_lines *lst, t_param *ptr);
 int			ft_read(char *file);
 int			key_event(keyPressed key, t_param *ptr);
 int			mouse_event(mousePressed mouse, int x, int y, t_param *ptr);

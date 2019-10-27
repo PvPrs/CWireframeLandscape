@@ -42,6 +42,16 @@ void		illuminate(t_param *ptr, int color)
 	}
 }
 
+/**
+ * Rersources for Bresenham Algorithm
+ * https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+ * http://graphics.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf - good Explanation
+ * http://members.chello.at/~easyfilter/bresenham.html - sample code
+ * @param absX
+ * @param absY
+ * @param absZ
+ * @TODO: This bresenham algo needs fixing and is the cause of the incorrect drawing.
+ */
 void		draw_line_3d(t_param *ptr)
 {
 	double deltaX;
@@ -62,14 +72,14 @@ void		draw_line_3d(t_param *ptr)
 	{
 		ptr->start.x += xincrement;
 		ptr->start.y += yincrement;
-		illuminate(ptr, 0xE0FFFF);
+		if (ptr->start.x > 0 && ptr->start.y > 0 && ptr->start.x < ptr->width && ptr->start.y < ptr->length)
+			illuminate(ptr, 0xE0FFFF);
 		index++;
 	}
 }
 
 /**
- *
- *
+ * draw_map initializes andd sets up the complete drawing of the map.
  * @param ptr
  * @variable axisFlag represents a flag to represent the current Axis being drawn.
  */
@@ -79,72 +89,87 @@ void	draw_map(t_param *ptr)
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
 	draw_horizontal(ptr);
+	ptr->start.x = 0;
+	ptr->start.y = 0;
+	ptr->end.x = 0;
+	ptr->end.y = 0;
 	draw_vertical(ptr);
+	ptr->start.x = 0;
+	ptr->start.y = 0;
+	ptr->end.x = 0;
+	ptr->end.y = 0;
 	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
+	load_interface(ptr);
 }
 
 void	draw_horizontal(t_param *ptr)
 {
-	int row;
-	int col;
+	int x;
+	int y;
 	t_points *temp;
+	double tempx;
+	double tempx2;
 
-	row = 0;
-	col = 0;
+	tempx = ptr->start.x;
+	tempx2 = ptr->end.x;
+	y = 0;
 	temp = malloc(sizeof(t_points));
-	while (ptr->map[row] != NULL)
+	while (y <= ptr->map_width)
 	{
-		ptr->start.x = 0;
-		while (ptr->map[row][col] != -1)
+		ptr->start.x = tempx;
+		ptr->end.x = tempx2;
+		x = 0;
+		while (x <= ptr->map_height)
 		{
 			ptr->end.x = (ptr->start.x + ptr->zoom);
-			ptr->end.y = (ptr->start.y);
-			ptr->end.z = ptr->map[row][col];
+			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y];
 			*temp = ptr->end;
 			rotate(ptr);
 			draw_line_3d(ptr);
-//			printf("ptr Xend: %d", ptr->end.x);
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
-			col++;
+			x++;
 		}
 		ptr->end.y += ptr->zoom;
 		ptr->start.y = ptr->end.y;
-		col = 0;
-		row++;
+		y++;
 	}
-	ptr->start.x = 0;
+	printf("x: %f y: %f, endX: %f, endY: %f\n", ptr->start.x, ptr->start.y, ptr->end.x, ptr->end.y);
 }
 
 void	draw_vertical(t_param *ptr)
 {
-	int row;
-	int col;
+	int x;
+	int y;
 	t_points *temp;
+	double tempy;
+	double tempy2;
 
-	row = 0;
-	col = 0;
+	tempy = ptr->start.y;
+	tempy2 = ptr->end.y;
+	x = 0;
 	temp = malloc(sizeof(t_points));
-	while (ptr->map[row] != NULL)
+	while (x <= ptr->map_height)
 	{
-		ptr->start.y = 0;
-		while (ptr->map[row][col] != -1)
+		ptr->start.y = tempy;
+		ptr->end.y = tempy2;
+		y = 0;
+		while (y <= ptr->map_width)
 		{
-			ptr->end.x = (ptr->start.x);
 			ptr->end.y = (ptr->start.y + ptr->zoom);
-			ptr->end.z = ptr->map[row][col];
+			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y];
 			*temp = ptr->end;
 			rotate(ptr);
 			draw_line_3d(ptr);
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
-			col++;
+			y++;
 		}
 		ptr->end.x += ptr->zoom;
 		ptr->start.x = ptr->end.x;
-		col = 0;
-		row++;
+		x++;
 	}
+	printf("x: %f y: %f, endX: %f, endY: %f\n", ptr->start.x, ptr->start.y, ptr->end.x, ptr->end.y);
 }
