@@ -24,9 +24,9 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 			return (0);
 	}
 	if (mouse == SCROLL_DOWN)
-		ptr->zoom -= 0.20;
+		ptr->depth -= 0.20;
 	if (mouse == SCROLL_UP)
-		ptr->zoom += 0.20;
+		ptr->depth += 0.20;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	return (0);

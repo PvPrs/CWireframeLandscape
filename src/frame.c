@@ -68,6 +68,7 @@ void		init(t_param *ptr, char *map)
 	ptr->width = 1200;
 	ptr->length = 750;
 	ptr->zoom = 20;
+	ptr->depth = 1;
 	ptr->beta = 0;
 	ptr->alpha = 0;
 	ptr->gamma = 0;

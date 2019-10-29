@@ -114,21 +114,21 @@ void	draw_horizontal(t_param *ptr)
 	tempx2 = ptr->end.x;
 	y = 0;
 	temp = malloc(sizeof(t_points));
-	while (y <= ptr->map_width)
+	while (y < ptr->map_width)
 	{
 		ptr->start.x = tempx;
 		ptr->end.x = tempx2;
 		x = 0;
-		while (x <= ptr->map_height)
+		while (x < ptr->map_height)
 		{
-			ptr->end.x = (ptr->start.x + ptr->zoom);
-			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y];
+			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
 			draw_line_3d(ptr);
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
+			ptr->end.x += ptr->zoom;
 			x++;
 		}
 		ptr->end.y += ptr->zoom;
@@ -150,21 +150,22 @@ void	draw_vertical(t_param *ptr)
 	tempy2 = ptr->end.y;
 	x = 0;
 	temp = malloc(sizeof(t_points));
-	while (x <= ptr->map_height)
+	while (x < ptr->map_height)
 	{
 		ptr->start.y = tempy;
 		ptr->end.y = tempy2;
 		y = 0;
-		while (y <= ptr->map_width)
+		while (y < ptr->map_width)
 		{
-			ptr->end.y = (ptr->start.y + ptr->zoom);
-			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y];
+			//ptr->end.y = (ptr->start.y + ptr->zoom);
+			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
 			draw_line_3d(ptr);
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
+			ptr->end.y += ptr->zoom;
 			y++;
 		}
 		ptr->end.x += ptr->zoom;

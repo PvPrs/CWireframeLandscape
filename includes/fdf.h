@@ -70,6 +70,7 @@ typedef struct s_param
 	double						gamma;
 	double						beta;
 	double						alpha;
+	double						depth;
 	t_points					start;
 	t_points					end;
 	fieldVision					fov;
