@@ -36,20 +36,17 @@ void	position(t_param *ptr, int flag)
 {
 	if (flag == 0)
 	{
-//		ptr->end.x *= ptr->zoom;
-//		ptr->end.y *= ptr->zoom;
-//		ptr->end.z *= ptr->zoom;
-		ptr->start.x += ptr->map_width / 2;
-		ptr->start.y += ptr->map_height / 2;
-		ptr->end.x += ptr->map_width / 2;
-		ptr->end.y += ptr->map_height / 2;
+		ptr->start.x += (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
+		ptr->start.y += (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
+		ptr->end.x += (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
+		ptr->end.y += (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
 	}
 	else
 	{
-		ptr->start.x -= ptr->map_width / 2;
-		ptr->start.y -= ptr->map_height / 2;
-		ptr->end.x -= ptr->map_width / 2;
-		ptr->end.y -= ptr->map_height / 2;
+		ptr->start.x -= (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
+		ptr->start.y -= (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
+		ptr->end.x -= (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
+		ptr->end.y -= (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
 	}
 }
 
@@ -59,4 +56,9 @@ void	rotate(t_param *ptr)
 	rot_z(&ptr->end.x, &ptr->end.y, ptr->gamma);
 	rot_x(&ptr->end.y, &ptr->end.z, ptr->alpha);
 	rot_y(&ptr->end.x, &ptr->end.z, ptr->beta);
+//	ptr->start.x += (ptr->width / 2);
+//	ptr->start.y += ptr->length / 2;
+//	ptr->end.x += (ptr->width / 2);
+//	ptr->end.y += ptr->length / 2;
+
 }

@@ -27,6 +27,10 @@ int		key_event(keyPressed key, t_param *ptr)
 		ptr->alpha += 0.0250000;
 	if (key == LEFT)
 		ptr->alpha -= 0.0250000;
+	if (key == A)
+		ptr->gamma -= 0.025;
+	if (key == D)
+		ptr->gamma += 0.025;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	return (0);

@@ -32,8 +32,8 @@ void		load_frame(char *title, char *map)
 	ptr->mlx_ptr = mlx_init();
 	if (ptr->mlx_ptr == NULL)
 		printf("Failed to initialize connection to the graphical system.\n");
-	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->length, title);
-	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
+	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->height, title);
+	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
 	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr); // Key Presses
 	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr); // Mouse Presses
@@ -66,8 +66,8 @@ int		close_frame(void *ptr)
 void		init(t_param *ptr, char *map)
 {
 	ptr->width = 1200;
-	ptr->length = 750;
-	ptr->zoom = 20;
+	ptr->height = 750;
+	ptr->tile_size = 20;
 	ptr->depth = 1;
 	ptr->beta = 0;
 	ptr->alpha = 0;

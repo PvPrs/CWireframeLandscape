@@ -33,7 +33,9 @@ typedef enum		e_keys
 	RIGHT = 124,
 	DOWN = 125,
 	UP = 126,
-	ESC = 53
+	ESC = 53,
+	A = 0,
+	D = 2
 } keyPressed;
 
 typedef enum		e_mouse
@@ -52,6 +54,13 @@ typedef struct s_points
 	double z;
 } t_points;
 
+typedef struct s_colors
+{
+	unsigned char red;
+	unsigned char green;
+	unsigned char blue;
+} t_color;
+
 typedef struct s_param
 {
 	void						*mlx_ptr;
@@ -62,8 +71,7 @@ typedef struct s_param
 	int 						size_line;
 	int							endian;
 	int							width;
-	int							length;
-	double						zoom;
+	int							height;
 	int							**map;
 	int							map_width;
 	int							map_height;
@@ -71,8 +79,10 @@ typedef struct s_param
 	double						beta;
 	double						alpha;
 	double						depth;
+	double						tile_size;
 	t_points					start;
 	t_points					end;
+	t_color						rgb;
 	fieldVision					fov;
 } t_param;
 

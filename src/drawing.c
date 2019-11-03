@@ -29,7 +29,7 @@ void		illuminate(t_param *ptr, int color)
 
 	xAxis = ptr->start.x;
 	yAxis = ptr->start.y;
-	if (xAxis >= 0 && xAxis <= ptr->width && yAxis >= 0 && yAxis <= ptr->length)
+	if (xAxis >= 0 && xAxis <= ptr->width && yAxis >= 0 && yAxis <= ptr->height)
 	{
 		index = (xAxis * ptr->size_line) + (yAxis * ptr->bits_in_pixel / 8);
 		ptr->data_addr[index] = color; // B — Blue
@@ -38,7 +38,7 @@ void		illuminate(t_param *ptr, int color)
 		index++;
 		ptr->data_addr[index] = color >> 16; // R — Red
 		index++;
-		ptr->data_addr[index] = 10; // Alpha channel
+		ptr->data_addr[index] = 0; // Alpha channel
 	}
 }
 
@@ -65,14 +65,14 @@ void		draw_line_3d(t_param *ptr)
 	index = 0;
 	deltaX = ptr->end.x - ptr->start.x;
 	deltaY = ptr->end.y - ptr->start.y;
-	leadAxis = fabs(deltaX) > fabs(deltaY) ? deltaX : deltaY;
+	leadAxis = deltaX > deltaY ? deltaX : deltaY;
 	xincrement = deltaX / (float) leadAxis;
 	yincrement = deltaY / (float) leadAxis;
 	while (index < leadAxis)
 	{
 		ptr->start.x += xincrement;
 		ptr->start.y += yincrement;
-		if (ptr->start.x > 0 && ptr->start.y > 0 && ptr->start.x < ptr->width && ptr->start.y < ptr->length)
+		if (ptr->start.x > 0 && ptr->start.y > 0 && ptr->start.x < ptr->width && ptr->start.y < ptr->height)
 			illuminate(ptr, 0xE0FFFF);
 		index++;
 	}
@@ -86,16 +86,12 @@ void		draw_line_3d(t_param *ptr)
 
 void	draw_map(t_param *ptr)
 {
-	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->length);
+	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
 	draw_horizontal(ptr);
-	ptr->start.x = 0;
-	ptr->start.y = 0;
 	ptr->end.x = 0;
 	ptr->end.y = 0;
 	draw_vertical(ptr);
-	ptr->start.x = 0;
-	ptr->start.y = 0;
 	ptr->end.x = 0;
 	ptr->end.y = 0;
 	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
@@ -121,17 +117,17 @@ void	draw_horizontal(t_param *ptr)
 		x = 0;
 		while (x < ptr->map_height)
 		{
-			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y] * ptr->depth;
+			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_width ? y - 1 : y] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
 			draw_line_3d(ptr);
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
-			ptr->end.x += ptr->zoom;
+			ptr->end.x += ptr->tile_size;
 			x++;
 		}
-		ptr->end.y += ptr->zoom;
+		ptr->end.y += ptr->tile_size;
 		ptr->start.y = ptr->end.y;
 		y++;
 	}
@@ -158,17 +154,17 @@ void	draw_vertical(t_param *ptr)
 		while (y < ptr->map_width)
 		{
 			//ptr->end.y = (ptr->start.y + ptr->zoom);
-			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_height ? y - 1 : y] * ptr->depth;
+			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_width ? y - 1 : y] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
 			draw_line_3d(ptr);
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
-			ptr->end.y += ptr->zoom;
+			ptr->end.y += ptr->tile_size;
 			y++;
 		}
-		ptr->end.x += ptr->zoom;
+		ptr->end.x += ptr->tile_size;
 		ptr->start.x = ptr->end.x;
 		x++;
 	}
