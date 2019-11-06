@@ -65,6 +65,7 @@ int		close_frame(void *ptr)
  */
 void		init(t_param *ptr, char *map)
 {
+	//(1200 / 2 = 600) - (20 * (19 / 2 = 9.5) = 190) = 600 - 190 = 420
 	ptr->width = 1200;
 	ptr->height = 750;
 	ptr->tile_size = 20;

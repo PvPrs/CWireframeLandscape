@@ -65,7 +65,7 @@ void		draw_line_3d(t_param *ptr)
 	index = 0;
 	deltaX = ptr->end.x - ptr->start.x;
 	deltaY = ptr->end.y - ptr->start.y;
-	leadAxis = deltaX > deltaY ? deltaX : deltaY;
+	leadAxis = fabs(deltaX) > fabs(deltaY) ? fabs(deltaX) : fabs(deltaY);
 	xincrement = deltaX / (float) leadAxis;
 	yincrement = deltaY / (float) leadAxis;
 	while (index < leadAxis)
@@ -103,24 +103,24 @@ void	draw_horizontal(t_param *ptr)
 	int x;
 	int y;
 	t_points *temp;
-	double tempx;
-	double tempx2;
+	double temp_s;
+	double temp_e;
 
-	tempx = ptr->start.x;
-	tempx2 = ptr->end.x;
+	temp_s = ptr->start.x;
+	temp_e = ptr->end.x;
 	y = 0;
 	temp = malloc(sizeof(t_points));
 	while (y < ptr->map_width)
 	{
-		ptr->start.x = tempx;
-		ptr->end.x = tempx2;
+		ptr->start.x = temp_s;
+		ptr->end.x = temp_e;
 		x = 0;
 		while (x < ptr->map_height)
 		{
 			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_width ? y - 1 : y] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
-			draw_line_3d(ptr);
+			x != 0 ? draw_line_3d(ptr) : 0;
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
@@ -139,17 +139,17 @@ void	draw_vertical(t_param *ptr)
 	int x;
 	int y;
 	t_points *temp;
-	double tempy;
-	double tempy2;
+	double temp_s;
+	double temp_e;
 
-	tempy = ptr->start.y;
-	tempy2 = ptr->end.y;
+	temp_s = ptr->start.y;
+	temp_e = ptr->end.y;
 	x = 0;
 	temp = malloc(sizeof(t_points));
 	while (x < ptr->map_height)
 	{
-		ptr->start.y = tempy;
-		ptr->end.y = tempy2;
+		ptr->start.y = temp_s;
+		ptr->end.y = temp_e;
 		y = 0;
 		while (y < ptr->map_width)
 		{
@@ -157,7 +157,7 @@ void	draw_vertical(t_param *ptr)
 			ptr->end.z = ptr->map[x == ptr->map_height ? x - 1 : x][y == ptr->map_width ? y - 1 : y] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
-			draw_line_3d(ptr);
+			y != 0 ? draw_line_3d(ptr) : 0;
 			position(ptr, 1);
 			ptr->start = ptr->end;
 			ptr->end = *temp;
@@ -168,5 +168,6 @@ void	draw_vertical(t_param *ptr)
 		ptr->start.x = ptr->end.x;
 		x++;
 	}
+	printf("WIDTH: %d, HEIGHT: %d\n", ptr->map_width, ptr->map_height);
 	printf("x: %f y: %f, endX: %f, endY: %f\n", ptr->start.x, ptr->start.y, ptr->end.x, ptr->end.y);
 }

@@ -36,17 +36,17 @@ void	position(t_param *ptr, int flag)
 {
 	if (flag == 0)
 	{
-		ptr->start.x += (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
-		ptr->start.y += (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
-		ptr->end.x += (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
-		ptr->end.y += (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
+		ptr->start.x += (ptr->width - (ptr->tile_size * (ptr->map_width / 2))) / 2;
+		ptr->start.y += (ptr->height - (ptr->tile_size * (ptr->map_height / 2))) / 2;
+		ptr->end.x += (ptr->width - (ptr->tile_size * (ptr->map_width / 2))) / 2;
+		ptr->end.y += (ptr->height - (ptr->tile_size * (ptr->map_height / 2))) / 2;
 	}
 	else
 	{
-		ptr->start.x -= (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
-		ptr->start.y -= (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
-		ptr->end.x -= (ptr->width / 2) - (ptr->tile_size * (ptr->map_width / 2));
-		ptr->end.y -= (ptr->height / 2) - (ptr->tile_size * (ptr->map_height / 2));
+		ptr->start.x -= (ptr->width - (ptr->tile_size * (ptr->map_width / 2))) / 2;
+		ptr->start.y -= (ptr->height - (ptr->tile_size * (ptr->map_height / 2))) / 2;
+		ptr->end.x -= (ptr->width - (ptr->tile_size * (ptr->map_width / 2))) / 2;
+		ptr->end.y -= (ptr->height - (ptr->tile_size * (ptr->map_height / 2))) / 2;
 	}
 }
 
