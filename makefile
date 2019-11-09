@@ -1,3 +1,4 @@
+  
 NAME		= fdf
 
 LIB_PATH	= ./libft/

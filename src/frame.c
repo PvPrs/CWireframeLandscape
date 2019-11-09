@@ -20,7 +20,7 @@
 ** Note that the MiniLibX can handle an arbitrary number of separate windows.
 ** @param size_x, size_y
 ** @param title
-** @variable *ptr represents a struct which contains identifiers for MLX to identify with.
+** @variable *ptr represents a struct containsing identifiers for MLX to identify with.
 */
 
 void		load_frame(char *title, char *map)
@@ -33,8 +33,6 @@ void		load_frame(char *title, char *map)
 	if (ptr->mlx_ptr == NULL)
 		printf("Failed to initialize connection to the graphical system.\n");
 	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->height, title);
-	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
-	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
 	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr); // Key Presses
 	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr); // Mouse Presses
 	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr); // Red Close Button
@@ -66,9 +64,10 @@ int		close_frame(void *ptr)
 void		init(t_param *ptr, char *map)
 {
 	//(1200 / 2 = 600) - (20 * (19 / 2 = 9.5) = 190) = 600 - 190 = 420
+	ptr->endian = 0;
 	ptr->width = 1200;
 	ptr->height = 750;
-	ptr->tile_size = 20;
+	ptr->tile_size = 40;
 	ptr->depth = 1;
 	ptr->beta = 0;
 	ptr->alpha = 0;

@@ -35,7 +35,9 @@ typedef enum		e_keys
 	UP = 126,
 	ESC = 53,
 	A = 0,
-	D = 2
+	D = 2,
+	PLUS = 69,
+	MINUS = 78,
 } keyPressed;
 
 typedef enum		e_mouse

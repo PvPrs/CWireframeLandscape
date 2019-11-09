@@ -19,18 +19,22 @@ int		key_event(keyPressed key, t_param *ptr)
 {
 	if (key == ESC)
 		exit(1);
-	if (key == UP)
-		ptr->beta += 0.0250000;
-	if (key == DOWN)
-		ptr->beta -= 0.025000;
-	if (key == RIGHT)
-		ptr->alpha += 0.0250000;
 	if (key == LEFT)
-		ptr->alpha -= 0.0250000;
+		ptr->beta -= 0.090000;
+	if (key == RIGHT)
+		ptr->beta += 0.09000;
+	if (key == DOWN)
+		ptr->alpha += 0.090000;
+	if (key == UP)
+		ptr->alpha -= 0.090000;
 	if (key == A)
 		ptr->gamma -= 0.025;
 	if (key == D)
 		ptr->gamma += 0.025;
+	if (key == PLUS)
+		ptr->tile_size += 0.5;
+	if (key == MINUS)
+		ptr->tile_size -= 0.5;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	return (0);
