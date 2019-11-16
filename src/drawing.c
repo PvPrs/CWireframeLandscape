@@ -23,11 +23,10 @@
 
 /*
 ** @bits_per_pixel will be filled with the
-** number of bits needed to represent a pixel color
-** also called the depth of the image.
-** @size_line is the number of bytes used to store one line
-** of  the  image  in memory.  This information is needed to move from one
-** line to another in the image.
+** number of bits needed to represent a pixel color a.k.a depth of the image.
+** @size_line
+** is the number of bytes used to store one line of the image in memory.
+** required to move to a newline in the image.
 ** Red >> 16, Green >> 8, Blue
 */
 
