@@ -52,15 +52,15 @@ static void	illuminate(t_param *ptr, int rgb)
 /*
 ** Rersources for Bresenham Algorithm
 ** https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
-** http://graphics.idav.ucdavis.edu/education/GraphicsNotes/Bresenhams-Algorithm.pdf - good Explanation
+** http://graphics.idav.ucdavis.edu/education \
+** /GraphicsNotes/Bresenhams-Algorithm.pdf - good Explanation
 ** http://members.chello.at/~easyfilter/bresenham.html - sample code
 ** @param absX
 ** @param absY
 ** @param absZ
-** @TODO: This bresenham algo needs fixing and is the cause of the incorrect drawing.
 */
 
-static void	draw_line_3d(t_param *ptr, int color)
+static void	draw_line_3d(t_param *ptr)
 {
 	double lead_axis;
 	double index;
@@ -70,15 +70,14 @@ static void	draw_line_3d(t_param *ptr, int color)
 	index = 0;
 	ptr->delta_x = ptr->end.x - ptr->start.x;
 	ptr->delta_y = ptr->end.y - ptr->start.y;
-	ptr->curr.x = ptr->start.x;
-	ptr->curr.y = ptr->start.y;
+	ptr->curr = ptr->start;
 	lead_axis = fabs(ptr->delta_x) > fabs(ptr->delta_y) ?
-			fabs(ptr->delta_x) : fabs(ptr->delta_y);
-	x_incr = ptr->delta_x / (float)lead_axis;
-	y_incr = ptr->delta_y / (float)lead_axis;
+				fabs(ptr->delta_x) : fabs(ptr->delta_y);
+	x_incr = ptr->delta_x / lead_axis;
+	y_incr = ptr->delta_y / lead_axis;
 	while (index < lead_axis)
 	{
-		illuminate(ptr, color);
+		illuminate(ptr, ptr->end.z != 0 ? get_color(ptr) : ptr->start_rgb);
 		ptr->curr.x += x_incr;
 		ptr->curr.y += y_incr;
 		index++;
@@ -90,24 +89,19 @@ static void	draw_horizontal(t_param *ptr)
 	int			x;
 	int			y;
 	t_points	*temp;
-	double		temp_s;
-	double		temp_e;
 
-	temp_s = ptr->start.y;
-	temp_e = ptr->end.y;
 	x = 0;
 	temp = malloc(sizeof(t_points));
 	while (x < ptr->map_width)
 	{
-		ptr->start.y = temp_s;
-		ptr->end.y = temp_e;
+		ptr->start.y = 0;
+		ptr->end.y = 0;
 		y = 0;
 		while (y < ptr->map_height)
 		{
-			ptr->end.z = ptr->map[y][x] * ptr->depth;
 			*temp = ptr->end;
-			rotate(ptr);
-			y != 0 ? draw_line_3d(ptr, get_color(ptr)) : 0;
+			rotate(ptr, ptr->map[y][x]);
+			y != 0 ? draw_line_3d(ptr) : 0;
 			ptr->start = ptr->end;
 			ptr->end = *temp;
 			ptr->end.y += ptr->tile_size;
@@ -124,24 +118,19 @@ static void	draw_vertical(t_param *ptr)
 	int			x;
 	int			y;
 	t_points	*temp;
-	double		temp_s;
-	double		temp_e;
 
-	temp_s = ptr->start.x;
-	temp_e = ptr->end.x;
 	y = 0;
 	temp = malloc(sizeof(t_points));
 	while (y < ptr->map_height)
 	{
-		ptr->start.x = temp_s;
-		ptr->end.x = temp_e;
+		ptr->start.x = 0;
+		ptr->end.x = 0;
 		x = 0;
 		while (x < ptr->map_width)
 		{
-			ptr->end.z = ptr->map[y][x] * ptr->depth;
 			*temp = ptr->end;
-			rotate(ptr);
-			x != 0 ? draw_line_3d(ptr, get_color(ptr)) : 0;
+			rotate(ptr, ptr->map[y][x]);
+			x != 0 ? draw_line_3d(ptr) : 0;
 			ptr->start = ptr->end;
 			ptr->end = *temp;
 			ptr->end.x += ptr->tile_size;
@@ -161,7 +150,8 @@ static void	draw_vertical(t_param *ptr)
 void		draw_map(t_param *ptr)
 {
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
-	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
+	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel),
+			&(ptr->size_line), &(ptr->endian));
 	draw_horizontal(ptr);
 	ptr->end.x = 0;
 	ptr->end.y = 0;

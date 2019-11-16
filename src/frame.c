@@ -29,8 +29,8 @@ void	load_frame(char *title, char *map)
 	t_param *ptr;
 
 	ptr = (t_param*)malloc(sizeof(t_param));
-	init(ptr);
 	ptr->map = ft_read_map(map, ptr);
+	init(ptr);
 	ptr->mlx_ptr = mlx_init();
 	if (ptr->mlx_ptr == NULL)
 		printf("Failed to initialize connection to the graphical system.\n");
@@ -72,8 +72,8 @@ int		close_frame(void *ptr)
 void	init(t_param *ptr)
 {
 	ptr->endian = 0;
-	ptr->start_rgb = 0xE1DE23;
-	ptr->end_rgb = 0x0FFFFF;
+	ptr->start_rgb = 0xFFFFFF;
+	ptr->end_rgb = 0xFF0000;
 	ptr->width = 1200;
 	ptr->height = 750;
 	ptr->tile_size = 40;

@@ -49,13 +49,6 @@ typedef struct s_lines
 	struct s_lines *next;
 } t_lines;
 
-//typedef struct s_colors
-//{
-//	unsigned char red;
-//	unsigned char green;
-//	unsigned char blue;
-//} t_color;
-
 typedef struct s_points
 {
 	double x;
@@ -78,6 +71,8 @@ typedef struct s_param
 	int							map_width;
 	int							map_height;
 	int							rgb;
+	int							start_rgb;
+	int 						end_rgb;
 	double						gamma;
 	double						beta;
 	double						alpha;
@@ -85,8 +80,6 @@ typedef struct s_param
 	double						tile_size;
 	double						delta_x;
 	double						delta_y;
-	int							start_rgb;
-	int 						end_rgb;
 	double						new_x;
 	double						new_y;
 	double						new_z;
@@ -110,7 +103,7 @@ void		rot_x(t_param *ptr);
 void		rot_y(t_param *ptr);
 void		rot_z(t_param *ptr, int z);
 void		iso(double *x, double *y, int z);
-void		rotate(t_param *ptr);
+void		rotate(t_param *ptr, int z);
 int			mouse_move(int x, int y, t_param *ptr);
 void		position(t_param *ptr, int flag);
 int			get_color(t_param *ptr);

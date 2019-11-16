@@ -12,13 +12,12 @@
 
 #include "../includes/fdf.h"
 #include <math.h>
-#include <stdio.h>
 
 void	rot_z(t_param *ptr, int z)
 {
 	ptr->new_x = ptr->end.x * cos(ptr->gamma) - sin(ptr->gamma) * ptr->end.y;
 	ptr->new_y = ptr->end.x * sin(ptr->gamma) + ptr->end.y * cos(ptr->gamma);
-	ptr->new_z = z;
+	ptr->new_z = z * ptr->depth;
 }
 
 void	rot_x(t_param *ptr)
@@ -60,11 +59,11 @@ void	iso(double *x, double *y, int z)
 	*y = -z + (previous_x + previous_y) * sin(0.523599);
 }
 
-void	rotate(t_param *ptr)
+void	rotate(t_param *ptr, int z)
 {
 	ptr->end.x -= ptr->tile_size * (ptr->map_width / 2);
 	ptr->end.y -= ptr->tile_size * (ptr->map_height / 2);
-	rot_z(ptr, ptr->end.z);
+	rot_z(ptr, z);
 	rot_x(ptr);
 	rot_y(ptr);
 	ptr->end.x = ptr->new_x;
