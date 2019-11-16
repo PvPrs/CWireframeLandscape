@@ -16,14 +16,15 @@
 #include "../libft/includes/libft.h"
 #include "../includes/fdf.h"
 
-/**
- * Sorts the read integers into a 2D Pointer Array
- * @param lst represents a linked-list cointaining the strings
- * @param size represents the amount of rows
- * @param len represents the width of the rows
- * @return A Pointer-to-Pointer Int Array
- */
-static int		**sort_map(t_lines *lst, t_param *ptr)
+/*
+** Sorts the read integers into a 2D Pointer Array
+** @param lst represents a linked-list cointaining the strings
+** @param size represents the amount of rows
+** @param len represents the width of the rows
+** @return A Pointer-to-Pointer Int Array
+*/
+
+static int	**sort_map(t_lines *lst, t_param *ptr)
 {
 	int		index;
 	int		row;
@@ -51,18 +52,18 @@ static int		**sort_map(t_lines *lst, t_param *ptr)
 	return (map);
 }
 
-/**
- *
- * @param file
- * @return
- * @map ** represents the X-axis(horizontal), * represents the Y-Axis(vertical)
- */
+/*
+** @param file
+** @return
+** @map ** represents the X-axis(horizontal), * represents the Y-Axis(vertical)
+*/
+
 int			**ft_read_map(char *file, t_param *ptr)
 {
-	int fd;
-	char *line;
-	t_lines *lst;
-	t_lines *head;
+	int		fd;
+	char	*line;
+	t_lines	*lst;
+	t_lines	*head;
 
 	lst = malloc(sizeof(t_lines *));
 	head = lst;

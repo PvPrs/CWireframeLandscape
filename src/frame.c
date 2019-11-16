@@ -16,14 +16,15 @@
 #include <stdlib.h>
 
 /*
-** Almost all the MLX functions return an identifier pointer, which can be later on used for other MLX function calls.
-** Note that the MiniLibX can handle an arbitrary number of separate windows.
+** Almost all the MLX functions return an identifier pointer
+** which can be later on used for other MLX function calls.
+** Note that the MiniLibX can handle an arbitrary n of separate windows.
 ** @param size_x, size_y
 ** @param title
-** @variable *ptr represents a struct containsing identifiers for MLX to identify with.
+** @variable *ptr represents a struct of identifiers for MLX to identify with.
 */
 
-void		load_frame(char *title, char *map)
+void	load_frame(char *title, char *map)
 {
 	t_param *ptr;
 
@@ -34,40 +35,42 @@ void		load_frame(char *title, char *map)
 	if (ptr->mlx_ptr == NULL)
 		printf("Failed to initialize connection to the graphical system.\n");
 	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->height, title);
-	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr); // Key Presses
-	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr); // Mouse Presses
-	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr); // Red Close Button
-	mlx_hook(ptr->win_ptr, 6, 0, mouse_move, ptr); // Mouse Movement
+	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr);
+	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr);
+	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr);
+	mlx_hook(ptr->win_ptr, 6, 0, mouse_move, ptr);
 	draw_map(ptr);
 	mlx_loop(ptr->mlx_ptr);
 }
-/**
- * Load any additional interfaces
- * @param ptr
- */
-void		load_interface(t_param *ptr)
-{
-	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFFFF, "Reset to default.");
-	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 37, 0xFFFFFF, "View:");
-	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000, ptr->fov == PARALLEL ? "parallel" : "isometric");
 
+/*
+** Load any additional interfaces
+** @param ptr
+*/
+
+void	load_interface(t_param *ptr)
+{
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFFFF,
+			"Reset to default.");
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 37, 0xFFFFFF, "View:");
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
+			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
 int		close_frame(void *ptr)
 {
-	//todo: Shutdown confirmation window.
 	(void)ptr;
 	exit(0);
 }
 
-/**
- * Initialize all the required variables.
- * @param ptr
- * @param map
- */
-void		init(t_param *ptr)
+/*
+** Initialize all the required variables.
+** @param ptr
+** @param map
+*/
+
+void	init(t_param *ptr)
 {
-	//(1200 / 2 = 600) - (20 * (19 / 2 = 9.5) = 190) = 600 - 190 = 420
 	ptr->endian = 0;
 	ptr->start_rgb = 0xE1DE23;
 	ptr->end_rgb = 0x0FFFFF;

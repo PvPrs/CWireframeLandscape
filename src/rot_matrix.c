@@ -14,27 +14,42 @@
 #include <math.h>
 #include <stdio.h>
 
-
-
-void	rot_z(double *x, double *y, double gamma)
+void	rot_z(t_param *ptr, int z)
 {
-	*x = *x * cos(gamma) - sin(gamma) * *y;
-	*y = *x * sin(gamma) + *y * cos(gamma);
+	ptr->new_x = ptr->end.x * cos(ptr->gamma) - sin(ptr->gamma) * ptr->end.y;
+	ptr->new_y = ptr->end.x * sin(ptr->gamma) + ptr->end.y * cos(ptr->gamma);
+	ptr->new_z = z;
 }
 
-void	rot_x(double *y, double *z, double alpha)
+void	rot_x(t_param *ptr)
 {
-	*y = *y * cos(alpha) - *z * sin(alpha);
-	*z = sin(alpha) * *y + cos(alpha) * *z;
+	double new_x;
+	double new_y;
+	double new_z;
+
+	new_x = ptr->new_x;
+	new_y = ptr->new_y * cos(ptr->alpha) - ptr->new_z * sin(ptr->alpha);
+	new_z = sin(ptr->alpha) * ptr->new_y + cos(ptr->alpha) * ptr->new_z;
+	ptr->new_x = new_x;
+	ptr->new_y = new_y;
+	ptr->new_z = new_z;
 }
 
-void	rot_y(double *x, double *z, double beta)
+void	rot_y(t_param *ptr)
 {
-	*x = *x * cos(beta) + sin(beta) * *z;
-	*z = -sin(beta) * *x + cos(beta) * *z;
+	double new_x;
+	double new_y;
+	double new_z;
+
+	new_x = ptr->new_x * cos(ptr->beta) + sin(ptr->beta) * ptr->new_z;
+	new_y = ptr->new_y;
+	new_z = -sin(ptr->beta) * ptr->new_x + cos(ptr->beta) * ptr->new_z;
+	ptr->new_x = new_x;
+	ptr->new_y = new_y;
+	ptr->new_z = new_z;
 }
 
-void iso(double *x, double *y, int z)
+void	iso(double *x, double *y, int z)
 {
 	int previous_x;
 	int previous_y;
@@ -49,9 +64,12 @@ void	rotate(t_param *ptr)
 {
 	ptr->end.x -= ptr->tile_size * (ptr->map_width / 2);
 	ptr->end.y -= ptr->tile_size * (ptr->map_height / 2);
-	rot_z(&ptr->end.x, &ptr->end.y, ptr->gamma);
-	rot_x(&ptr->end.y, &ptr->end.z, ptr->alpha);
-	rot_y(&ptr->end.x, &ptr->end.z, ptr->beta);
+	rot_z(ptr, ptr->end.z);
+	rot_x(ptr);
+	rot_y(ptr);
+	ptr->end.x = ptr->new_x;
+	ptr->end.y = ptr->new_y;
+	ptr->end.z = ptr->new_z;
 	if (ptr->fov == ISOMETRIC)
 		iso(&ptr->end.x, &ptr->end.y, ptr->end.z);
 	ptr->end.x += ptr->width / 2;

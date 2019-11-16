@@ -16,7 +16,7 @@
 #include "../libft/includes/libft.h"
 #include <fcntl.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
@@ -25,5 +25,5 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	load_frame("FDF Codam project - Dave & Brendan", argv[1]);
-	return 0;
+	return (0);
 }

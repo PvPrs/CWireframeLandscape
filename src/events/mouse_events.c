@@ -26,25 +26,18 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 			return (0);
 	}
 	if (mouse == SCROLL_UP)
-	{
-		//ptr->tile_size *= 0.9995;
 		ptr->depth += 0.20;
-	}
 	if (mouse == SCROLL_DOWN)
-	{
 		ptr->depth -= 0.20;
-		//ptr->tile_size *= 1.0005;
-	}
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	return (0);
 }
 
-int mouse_move(int x, int y, t_param *ptr)
+int		mouse_move(int x, int y, t_param *ptr)
 {
 	(void)ptr;
 	x = 0;
 	y = 0;
-//	printf("mouse X: %d, mouse Y: %d", x, y);
 	return (0);
 }
