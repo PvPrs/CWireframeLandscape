@@ -18,7 +18,9 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 {
 	if (mouse == LEFT_MOUSE)
 	{
-		if (x >= 17 && x <= 175 && y >= 27 && y <= 41)
+		if (x >= 17 && x <= 190 && y >= 27 && y <= 41)
+			init(ptr);
+		else if (x >= 17 && x <= 190 && y >= 44 && y <= 59)
 			ptr->fov = (ptr->fov == ISOMETRIC ? PARALLEL : ISOMETRIC);
 		else
 			return (0);

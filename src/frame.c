@@ -28,7 +28,8 @@ void		load_frame(char *title, char *map)
 	t_param *ptr;
 
 	ptr = (t_param*)malloc(sizeof(t_param));
-	init(ptr, map);
+	init(ptr);
+	ptr->map = ft_read_map(map, ptr);
 	ptr->mlx_ptr = mlx_init();
 	if (ptr->mlx_ptr == NULL)
 		printf("Failed to initialize connection to the graphical system.\n");
@@ -46,7 +47,10 @@ void		load_frame(char *title, char *map)
  */
 void		load_interface(t_param *ptr)
 {
-	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFF5C, ptr->fov == PARALLEL ? "mode: PARALLEL" : "mode: ISOMETRIC");
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFFFF, "Reset to default.");
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 37, 0xFFFFFF, "View:");
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000, ptr->fov == PARALLEL ? "parallel" : "isometric");
+
 }
 
 int		close_frame(void *ptr)
@@ -61,10 +65,12 @@ int		close_frame(void *ptr)
  * @param ptr
  * @param map
  */
-void		init(t_param *ptr, char *map)
+void		init(t_param *ptr)
 {
 	//(1200 / 2 = 600) - (20 * (19 / 2 = 9.5) = 190) = 600 - 190 = 420
 	ptr->endian = 0;
+	ptr->start_rgb = 0xE1DE23;
+	ptr->end_rgb = 0x0FFFFF;
 	ptr->width = 1200;
 	ptr->height = 750;
 	ptr->tile_size = 40;
@@ -72,8 +78,6 @@ void		init(t_param *ptr, char *map)
 	ptr->beta = 0;
 	ptr->alpha = 0;
 	ptr->gamma = 0;
-	ptr->map_width = 0;
-	ptr->map_height = 0;
 	ptr->start.x = 0;
 	ptr->start.y = 0;
 	ptr->start.z = 0;
@@ -81,5 +85,4 @@ void		init(t_param *ptr, char *map)
 	ptr->end.y = 0;
 	ptr->end.z = 0;
 	ptr->fov = PARALLEL;
-	ptr->map = ft_read_map(map, ptr);
 }

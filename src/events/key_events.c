@@ -20,13 +20,13 @@ int		key_event(keyPressed key, t_param *ptr)
 	if (key == ESC)
 		exit(1);
 	if (key == LEFT)
-		ptr->beta -= 0.090000;
+		ptr->beta -= 0.045;
 	if (key == RIGHT)
-		ptr->beta += 0.09000;
+		ptr->beta += 0.045;
 	if (key == DOWN)
-		ptr->alpha += 0.090000;
+		ptr->alpha += 0.045;
 	if (key == UP)
-		ptr->alpha -= 0.090000;
+		ptr->alpha -= 0.045;
 	if (key == A)
 		ptr->gamma -= 0.025;
 	if (key == D)

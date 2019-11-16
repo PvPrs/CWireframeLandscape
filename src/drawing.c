@@ -32,25 +32,23 @@
 * of  the  image  in memory.  This information is needed to move from one
 * line to another in the image.
 */
-void		illuminate(t_param *ptr, int color)
+static void		illuminate(t_param *ptr, int rgb)
 {
 	int index;
 	int xAxis;
 	int yAxis;
 
-	xAxis = ptr->start.x;
-	yAxis = ptr->start.y;
+	xAxis = ptr->curr.x;
+	yAxis = ptr->curr.y;
 //	printf("%f + %f, size_line: %d, bits: %d\n", xAxis, yAxis, ptr->size_line, ptr->bits_in_pixel / 8);
+//	printf("red: %d, green: %d, blue %d\n", rgb >> 16, rgb >> 8, rgb);
 	if (xAxis >= 0 && xAxis <= ptr->width && yAxis >= 0 && yAxis <= ptr->height)
 	{
 		index = (yAxis * ptr->size_line) + (xAxis * ptr->bits_in_pixel / 8);
-		ptr->data_addr[index] = color; // B — Blue
-		index++;
-		ptr->data_addr[index] = color >> 8; // G — Green
-		index++;
-		ptr->data_addr[index] = color >> 16; // R — Red
-		index++;
-		ptr->data_addr[index] = 0; // Alpha channel
+		ptr->data_addr[index] = rgb; // B — Blue
+		ptr->data_addr[index + 1] = rgb >> 8; // G — Green
+		ptr->data_addr[index + 2] = rgb >> 16; // R — Red
+		ptr->data_addr[index + 3] = 0; // Alpha channel
 	}
 }
 
@@ -64,51 +62,32 @@ void		illuminate(t_param *ptr, int color)
 ** @param absZ
 ** @TODO: This bresenham algo needs fixing and is the cause of the incorrect drawing.
 */
-void		draw_line_3d(t_param *ptr)
+static void		draw_line_3d(t_param *ptr, int color)
 {
-	double deltaX;
-	double deltaY;
 	double leadAxis;
 	double xincrement;
 	double index;
 	double yincrement;
 
 	index = 0;
-	deltaX = ptr->end.x - ptr->start.x;
-	deltaY = ptr->end.y - ptr->start.y;
-	leadAxis = fabs(deltaX) > fabs(deltaY) ? fabs(deltaX) : fabs(deltaY);
-	xincrement = deltaX / (float) leadAxis;
-	yincrement = deltaY / (float) leadAxis;
+	ptr->delta_x = ptr->end.x - ptr->start.x;
+	ptr->delta_y = ptr->end.y - ptr->start.y;
+	ptr->curr.x = ptr->start.x;
+	ptr->curr.y = ptr->start.y;
+	leadAxis = fabs(ptr->delta_x) > fabs(ptr->delta_y) ? fabs(ptr->delta_x) : fabs(ptr->delta_y);
+	xincrement = ptr->delta_x / (float) leadAxis;
+	yincrement = ptr->delta_y / (float) leadAxis;
 	while (index < leadAxis)
 	{
-		ptr->start.x += xincrement;
-		ptr->start.y += yincrement;
-		if (ptr->start.x > 0 && ptr->start.y > 0 && ptr->start.x < ptr->width && ptr->start.y < ptr->height)
-			illuminate(ptr, 0xE0FFFF);
+		ptr->curr.x += xincrement;
+		ptr->curr.y += yincrement;
+		if (ptr->curr.x > 0 && ptr->curr.y > 0 && ptr->curr.x < ptr->width && ptr->curr.y < ptr->height)
+			illuminate(ptr, color);
 		index++;
 	}
 }
 
-/*
-** draw_map initializes andd sets up the complete drawing of the map.
-** @param ptr represents a pointer to the t_param struct.
-*/
-
-void	draw_map(t_param *ptr)
-{
-	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
-	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
-	draw_horizontal(ptr);
-	ptr->end.x = 0;
-	ptr->end.y = 0;
-	draw_vertical(ptr);
-	ptr->end.x = 0;
-	ptr->end.y = 0;
-	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
-	load_interface(ptr);
-}
-
-void	draw_horizontal(t_param *ptr)
+static void	draw_horizontal(t_param *ptr)
 {
 	int x;
 	int y;
@@ -130,7 +109,7 @@ void	draw_horizontal(t_param *ptr)
 			ptr->end.z = ptr->map[y == ptr->map_height ? y - 1 : y][x == ptr->map_width ? x - 1 : x] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
-			y != 0 ? draw_line_3d(ptr) : 0;
+			y != 0 ? draw_line_3d(ptr, ptr->end.z != 0 ? get_color(ptr) : ptr->start_rgb) : 0;
 			ptr->start = ptr->end;
 			ptr->end = *temp;
 			ptr->end.y += ptr->tile_size;
@@ -142,7 +121,7 @@ void	draw_horizontal(t_param *ptr)
 	}
 }
 
-void	draw_vertical(t_param *ptr)
+static void	draw_vertical(t_param *ptr)
 {
 	int x;
 	int y;
@@ -164,7 +143,7 @@ void	draw_vertical(t_param *ptr)
 			ptr->end.z = ptr->map[y == ptr->map_height ? y - 1 : y][x == ptr->map_width ? x - 1 : x] * ptr->depth;
 			*temp = ptr->end;
 			rotate(ptr);
-			x != 0 ? draw_line_3d(ptr) : 0;
+			x != 0 ? draw_line_3d(ptr, ptr->end.z != 0 ? get_color(ptr) : ptr->start_rgb) : 0;
 			ptr->start = ptr->end;
 			ptr->end = *temp;
 			ptr->end.x += ptr->tile_size;
@@ -174,4 +153,23 @@ void	draw_vertical(t_param *ptr)
 		ptr->start.y = ptr->end.y;
 		y++;
 	}
+}
+
+/*
+** draw_map initializes andd sets up the complete drawing of the map.
+** @param ptr represents a pointer to the t_param struct.
+*/
+
+void	draw_map(t_param *ptr)
+{
+	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
+	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel), &(ptr->size_line), &(ptr->endian));
+	draw_horizontal(ptr);
+	ptr->end.x = 0;
+	ptr->end.y = 0;
+	draw_vertical(ptr);
+	ptr->end.x = 0;
+	ptr->end.y = 0;
+	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
+	load_interface(ptr);
 }

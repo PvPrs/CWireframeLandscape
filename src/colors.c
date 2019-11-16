@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "../includes/fdf.h"
 
-double percent(int start, int end, int current)
+static double percent(double start, double end, double current)
 {
 	double placement;
 	double distance;
@@ -23,26 +23,36 @@ double percent(int start, int end, int current)
 	return ((distance == 0) ? 1.0 : (placement / distance));
 }
 
-int get_light(int start, int end, double percentage)
+static int get_light(int start, int end, double percentage)
 {
+	//printf("rgb: %d, start: %d, end: %d\n", (int)((1 - percentage) * start + percentage * end), start, end);
 	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-int get_color(t_point current, t_point start, t_point end, t_point delta)
+/**
+ *
+ * @param ptr represents the struct
+ * @param delta Represents the current set of delta.
+ * @param x Represent the current X coordinate
+ * @param y Represents the current Y coordinate
+ * @return
+ */
+int get_color(t_param *ptr)
 {
-	int     red;
-	int     green;
-	int     blue;
 	double  percentage;
+	int red;
+	int green;
+	int blue;
 
-	if (current.color == end.color)
-		return (current.color);
-	if (delta.x > delta.y)
-		percentage = percent(start.x, end.x, current.x);
+	if (ptr->rgb == ptr->end_rgb)
+		return (ptr->rgb);
+	if (ptr->delta_x > ptr->delta_y)
+		percentage = percent(ptr->start.x, ptr->end.x, ptr->curr.x);
 	else
-		percentage = percent(start.y, end.y, current.y);
-	red = get_light((start.color >> 16) & 0xFF, (end.color >> 16) & 0xFF, percentage);
-	green = get_light((start.color >> 8) & 0xFF, (end.color >> 8) & 0xFF, percentage);
-	blue = get_light(start.color & 0xFF, end.color & 0xFF, percentage);
+		percentage = percent(ptr->start.y, ptr->end.y, ptr->curr.y);
+	//printf("%f, 0x%06x, 0x%06x\n", percentage, ptr->start_rgb, ptr->end_rgb);
+	red = get_light((ptr->start_rgb >> 16), (ptr->end_rgb >> 16), percentage);
+	green = get_light((ptr->start_rgb >> 8) & 0xFF, (ptr->end_rgb >> 8) & 0xFF, percentage);
+	blue = get_light(ptr->start_rgb & 0xFF, ptr->end_rgb & 0xFF, percentage);
 	return ((red << 16) | (green << 8) | blue);
 }

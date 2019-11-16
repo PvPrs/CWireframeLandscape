@@ -1,4 +1,3 @@
-  
 NAME		= fdf
 
 LIB_PATH	= ./libft/
@@ -12,6 +11,7 @@ SRC			= src/main.c \
 			src/events/mouse_events.c \
 			src/drawing.c \
 			src/rot_matrix.c \
+			src/colors.c
 
 OBJ			= main.o \
 			frame.o \
@@ -19,7 +19,8 @@ OBJ			= main.o \
 			key_events.o \
 			mouse_events.o \
 			drawing.o \
-			rot_matrix. o
+			rot_matrix. o \
+			colors.o
 
 FLAGS		= -Wall -Werror -Wextra
 

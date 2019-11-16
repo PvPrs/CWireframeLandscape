@@ -17,6 +17,41 @@
 #include "../includes/fdf.h"
 
 /**
+ * Sorts the read integers into a 2D Pointer Array
+ * @param lst represents a linked-list cointaining the strings
+ * @param size represents the amount of rows
+ * @param len represents the width of the rows
+ * @return A Pointer-to-Pointer Int Array
+ */
+static int		**sort_map(t_lines *lst, t_param *ptr)
+{
+	int		index;
+	int		row;
+	char	**split_line;
+	int		**map;
+
+	map = malloc(sizeof(int *) * (ptr->map_height + 1));
+	map[ptr->map_height] = NULL;
+	row = 0;
+	index = 0;
+	while (row < ptr->map_height)
+	{
+		split_line = ft_strsplit(lst->str, ' ');
+		map[row] = malloc(sizeof(int) * (ptr->map_width + 1));
+		while (index < ptr->map_width)
+		{
+			map[row][index] = ft_atoi(split_line[index]);
+			index++;
+		}
+		map[row][index] = -1;
+		index = 0;
+		row++;
+		lst = lst->next;
+	}
+	return (map);
+}
+
+/**
  *
  * @param file
  * @return
@@ -46,39 +81,4 @@ int			**ft_read_map(char *file, t_param *ptr)
 	}
 	ptr->map_width = ft_strlen(head->str) / 3 + 1;
 	return (sort_map(head, ptr));
-}
-
-/**
- * Sorts the read integers into a 2D Pointer Array
- * @param lst represents a linked-list cointaining the strings
- * @param size represents the amount of rows
- * @param len represents the width of the rows
- * @return A Pointer-to-Pointer Int Array
- */
-int		**sort_map(t_lines *lst, t_param *ptr)
-{
-	int		index;
-	int		row;
-	char	**split_line;
-	int		**map;
-
-	map = malloc(sizeof(int *) * (ptr->map_height + 1));
-	map[ptr->map_height] = NULL;
-	row = 0;
-	index = 0;
-	while (row < ptr->map_height)
-	{
-		split_line = ft_strsplit(lst->str, ' ');
-		map[row] = malloc(sizeof(int) * (ptr->map_width + 1));
-		while (index < ptr->map_width)
-		{
-			map[row][index] = ft_atoi(split_line[index]);
-			index++;
-		}
-		map[row][index] = -1;
-		index = 0;
-		row++;
-		lst = lst->next;
-	}
-	return (map);
 }
