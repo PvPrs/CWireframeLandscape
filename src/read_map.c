@@ -31,14 +31,14 @@ static int	**sort_map(t_lines *lst, t_param *ptr)
 	char	**split_line;
 	int		**map;
 
-	map = malloc(sizeof(int *) * (ptr->map_height + 1));
+	map = malloc(sizeof(*map) * (ptr->map_height + 1));
 	map[ptr->map_height] = NULL;
 	row = 0;
 	index = 0;
-	while (row < ptr->map_height)
+	while (row < ptr->map_height && lst->next != NULL)
 	{
 		split_line = ft_strsplit(lst->str, ' ');
-		map[row] = malloc(sizeof(int) * (ptr->map_width + 1));
+		map[row] = malloc(sizeof(**map) * (ptr->map_width + 1));
 		while (index < ptr->map_width)
 		{
 			map[row][index] = ft_atoi(split_line[index]);
@@ -65,7 +65,7 @@ int			**ft_read_map(char *file, t_param *ptr)
 	t_lines	*lst;
 	t_lines	*head;
 
-	lst = malloc(sizeof(t_lines *));
+	lst = malloc(sizeof(*lst));
 	head = lst;
 	if (!(ft_strcmp(ft_strrchr(file, '.'), ".fdf") == 0))
 	{
@@ -80,6 +80,6 @@ int			**ft_read_map(char *file, t_param *ptr)
 		lst->next = malloc(sizeof(*lst));
 		lst = lst->next;
 	}
-	ptr->map_width = ft_strlen(head->str) / 3 + 1;
+	ptr->map_width = (int) ft_strlen(head->str) / 3 + 1;
 	return (sort_map(head, ptr));
 }

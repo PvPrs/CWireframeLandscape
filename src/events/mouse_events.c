@@ -14,7 +14,7 @@
 #include "../../minilibx_macos/mlx.h"
 #include <stdio.h>
 
-int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
+int		mouse_event(int mouse, int x, int y, t_param *ptr)
 {
 	if (mouse == LEFT_MOUSE)
 	{
@@ -31,13 +31,5 @@ int		mouse_event(mousePressed mouse, int x, int y, t_param *ptr)
 		ptr->depth -= 0.20;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
-	return (0);
-}
-
-int		mouse_move(int x, int y, t_param *ptr)
-{
-	(void)ptr;
-	x = 0;
-	y = 0;
 	return (0);
 }

@@ -28,17 +28,18 @@ void	load_frame(char *title, char *map)
 {
 	t_param *ptr;
 
-	ptr = (t_param*)malloc(sizeof(t_param));
+	ptr = malloc(sizeof(t_param));
 	ptr->map = ft_read_map(map, ptr);
 	init(ptr);
 	ptr->mlx_ptr = mlx_init();
-	if (ptr->mlx_ptr == NULL)
+	if (ptr->mlx_ptr == NULL) {
 		printf("Failed to initialize connection to the graphical system.\n");
+		exit(1);
+	}
 	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->height, title);
 	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr);
 	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr);
 	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr);
-	mlx_hook(ptr->win_ptr, 6, 0, mouse_move, ptr);
 	draw_map(ptr);
 	mlx_loop(ptr->mlx_ptr);
 }
