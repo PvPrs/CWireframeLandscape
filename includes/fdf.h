@@ -97,14 +97,13 @@ void		init(t_param *ptr);
 void		load_interface(t_param *ptr);
 int			ft_read(char *file);
 int			key_event(keyPressed key, t_param *ptr);
-int			mouse_event(mousePressed mouse, int x, int y, t_param *ptr);
+int			mouse_event(int mouse, int x, int y, t_param *ptr);
 void		draw_map(t_param *ptr);
 void		rot_x(t_param *ptr);
 void		rot_y(t_param *ptr);
 void		rot_z(t_param *ptr, int z);
 void		iso(double *x, double *y, int z);
 void		rotate(t_param *ptr, int z);
-int			mouse_move(int x, int y, t_param *ptr);
 void		position(t_param *ptr, int flag);
 int			get_color(t_param *ptr);
 
