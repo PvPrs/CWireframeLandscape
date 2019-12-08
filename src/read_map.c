@@ -64,7 +64,6 @@ int			**ft_read_map(char *file, t_param *ptr)
 	char	*line;
 	t_lines	*lst;
 	t_lines	*head;
-
 	lst = malloc(sizeof(*lst));
 	head = lst;
 	if (!(ft_strcmp(ft_strrchr(file, '.'), ".fdf") == 0))
@@ -80,6 +79,6 @@ int			**ft_read_map(char *file, t_param *ptr)
 		lst->next = malloc(sizeof(*lst));
 		lst = lst->next;
 	}
-	ptr->map_width = (int) ft_strlen(head->str) / 3 + 1;
+	ptr->map_width = ft_2d_len(ft_strsplit(head->str, ' '));
 	return (sort_map(head, ptr));
 }
