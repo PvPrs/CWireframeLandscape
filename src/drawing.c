@@ -87,10 +87,10 @@ static void	draw_horizontal(t_param *ptr)
 {
 	int			x;
 	int			y;
-	t_points	*temp;
+	t_points	temp;
 
 	x = 0;
-	temp = malloc(sizeof(t_points));
+	ptr->end.x = 0;
 	while (x < ptr->map_width)
 	{
 		ptr->start.y = 0;
@@ -98,11 +98,11 @@ static void	draw_horizontal(t_param *ptr)
 		y = 0;
 		while (y < ptr->map_height)
 		{
-			*temp = ptr->end;
+			temp = ptr->end;
 			rotate(ptr, ptr->map[y][x]);
 			y != 0 ? draw_line_3d(ptr) : 0;
 			ptr->start = ptr->end;
-			ptr->end = *temp;
+			ptr->end = temp;
 			ptr->end.y += ptr->tile_size;
 			y++;
 		}
@@ -116,10 +116,10 @@ static void	draw_vertical(t_param *ptr)
 {
 	int			x;
 	int			y;
-	t_points	*temp;
+	t_points	temp;
 
 	y = 0;
-	temp = malloc(sizeof(t_points));
+	ptr->end.y = 0;
 	while (y < ptr->map_height)
 	{
 		ptr->start.x = 0;
@@ -127,11 +127,11 @@ static void	draw_vertical(t_param *ptr)
 		x = 0;
 		while (x < ptr->map_width)
 		{
-			*temp = ptr->end;
+			temp = ptr->end;
 			rotate(ptr, ptr->map[y][x]);
 			x != 0 ? draw_line_3d(ptr) : 0;
 			ptr->start = ptr->end;
-			ptr->end = *temp;
+			ptr->end = temp;
 			ptr->end.x += ptr->tile_size;
 			x++;
 		}
@@ -153,9 +153,7 @@ void		draw_map(t_param *ptr)
 			&(ptr->size_line), &(ptr->endian));
 	draw_horizontal(ptr);
 	ptr->end.x = 0;
-	ptr->end.y = 0;
 	draw_vertical(ptr);
-	ptr->end.x = 0;
 	ptr->end.y = 0;
 	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 	load_interface(ptr);
