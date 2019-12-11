@@ -56,6 +56,8 @@ void	load_interface(t_param *ptr)
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 37, 0xFFFFFF, "View:");
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
+	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
+				   ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
 int		close_frame(void *ptr)
@@ -73,8 +75,8 @@ int		close_frame(void *ptr)
 void	init(t_param *ptr)
 {
 	ptr->endian = 0;
-	ptr->start_rgb = 0xFFFFFF;
-	ptr->end_rgb = 0xFF0000;
+	ptr->start.rgb = 0xFFFFFF;
+	ptr->end.rgb = 0xFF0000;
 	ptr->width = 1200;
 	ptr->height = 750;
 	ptr->tile_size = 40;

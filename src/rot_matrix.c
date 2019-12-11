@@ -22,9 +22,9 @@ void	rot_z(t_param *ptr, int z)
 
 void	rot_x(t_param *ptr)
 {
-	double new_x;
-	double new_y;
-	double new_z;
+	int new_x;
+	int new_y;
+	int new_z;
 
 	new_x = ptr->new_x;
 	new_y = ptr->new_y * cos(ptr->alpha) - ptr->new_z * sin(ptr->alpha);
@@ -36,9 +36,9 @@ void	rot_x(t_param *ptr)
 
 void	rot_y(t_param *ptr)
 {
-	double new_x;
-	double new_y;
-	double new_z;
+	int new_x;
+	int new_y;
+	int new_z;
 
 	new_x = ptr->new_x * cos(ptr->beta) + sin(ptr->beta) * ptr->new_z;
 	new_y = ptr->new_y;
@@ -48,7 +48,7 @@ void	rot_y(t_param *ptr)
 	ptr->new_z = new_z;
 }
 
-void	iso(double *x, double *y, int z)
+void	iso(int *x, int *y, int z)
 {
 	int previous_x;
 	int previous_y;

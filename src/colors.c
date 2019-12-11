@@ -13,15 +13,23 @@
 #include <stdio.h>
 #include "../includes/fdf.h"
 
-static double	percent(double start, double end, double current)
+# define DEFAULT			0xffdd33
+# define LIGHT_GREEN		0x9cff33
+# define LIME_GREEN			0x00FF00
+# define WHITE				0xFFFFFF
+# define LIGHT_ORANGE		0xffc133
+# define ORANGE				0xff4633
+# define RED				0xFF0000
+
+static double	percent(int start, int end, int current)
 {
 	double placement;
 	double distance;
-
 	placement = current - start;
 	distance = end - start;
 	return ((distance == 0) ? 1.0 : (placement / distance));
 }
+
 
 static int		get_light(int start, int end, double percentage)
 {
@@ -43,15 +51,38 @@ int				get_color(t_param *ptr)
 	int		green;
 	int		blue;
 
-	if (ptr->rgb == ptr->end_rgb)
-		return (ptr->rgb);
+	if (ptr->curr.rgb == ptr->end.rgb)
+		return (ptr->curr.rgb);
 	if (ptr->delta_x > ptr->delta_y)
 		percentage = percent(ptr->start.x, ptr->end.x, ptr->curr.x);
 	else
 		percentage = percent(ptr->start.y, ptr->end.y, ptr->curr.y);
-	red = get_light((ptr->start_rgb >> 16), (ptr->end_rgb >> 16), percentage);
-	green = get_light((ptr->start_rgb >> 8) & 0xFF, (ptr->end_rgb >> 8) & 0xFF,
+	red = get_light((ptr->start.rgb >> 16), (ptr->end.rgb >> 16), percentage);
+	green = get_light((ptr->start.rgb >> 8) & 0xFF, (ptr->end.rgb >> 8) & 0xFF,
 			percentage);
-	blue = get_light(ptr->start_rgb & 0xFF, ptr->end_rgb & 0xFF, percentage);
+	blue = get_light(ptr->start.rgb & 0xFF, ptr->end.rgb & 0xFF, percentage);
 	return ((red << 16) | (green << 8) | blue);
+}
+
+/*
+** Get color from default palette. Color depends on altitude
+*/
+
+int	get_default_color(int z)
+{
+	double	percentage;
+
+	percentage = percent(-100, 100, z);
+	if (percentage < 0.1)
+		return (RED);
+	else if (percentage < 0.3)
+		return (ORANGE);
+	else if (percentage < 0.5)
+		return (LIGHT_ORANGE);
+	else if (percentage < 0.6)
+		return (DEFAULT);
+	else if (percentage < 0.8)
+		return (LIGHT_GREEN);
+	else
+		return (LIME_GREEN);
 }
