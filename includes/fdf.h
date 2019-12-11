@@ -28,8 +28,10 @@ typedef enum		e_keys
 	ESC = 53,
 	A = 0,
 	D = 2,
-	PLUS = 69,
-	MINUS = 78,
+	PLUS = 24,
+	MINUS = 27,
+	PLUS_NUM = 69,
+	MINUS_NUM = 78,
 } keyPressed;
 
 typedef enum		e_mouse
@@ -51,9 +53,10 @@ typedef struct s_lines
 
 typedef struct s_points
 {
-	double x;
-	double y;
-	double z;
+	int x;
+	int y;
+	int z;
+	int rgb;
 } t_points;
 
 typedef struct s_param
@@ -70,19 +73,16 @@ typedef struct s_param
 	int							**map;
 	int							map_width;
 	int							map_height;
-	int							rgb;
-	int							start_rgb;
-	int 						end_rgb;
 	double						gamma;
 	double						beta;
 	double						alpha;
 	double						depth;
-	double						tile_size;
-	double						delta_x;
-	double						delta_y;
-	double						new_x;
-	double						new_y;
-	double						new_z;
+	int							tile_size;
+	int							delta_x;
+	int							delta_y;
+	int							new_x;
+	int							new_y;
+	int							new_z;
 	t_points					start;
 	t_points					end;
 	t_points					curr;
@@ -102,9 +102,10 @@ void		draw_map(t_param *ptr);
 void		rot_x(t_param *ptr);
 void		rot_y(t_param *ptr);
 void		rot_z(t_param *ptr, int z);
-void		iso(double *x, double *y, int z);
+void		iso(int *x, int *y, int z);
 void		rotate(t_param *ptr, int z);
 void		position(t_param *ptr, int flag);
 int			get_color(t_param *ptr);
+int			get_default_color(int z);
 
 #endif //FDF_FDF_H

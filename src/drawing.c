@@ -58,40 +58,12 @@ static void	illuminate(t_param *ptr, int rgb)
 ** @param absZ
 */
 
-//static void	draw_line_3d(t_param *ptr)
-//{
-//	int lead_axis;
-//	int index;
-//	int x_incr;
-//	int y_incr;
-//
-//	index = 0;
-//	ptr->delta_x = ptr->end.x - ptr->start.x;
-//	ptr->delta_y = ptr->end.y - ptr->start.y;
-//	ptr->curr = ptr->start;
-//	lead_axis = abs(ptr->delta_x) > abs(ptr->delta_y) ?
-//				abs(ptr->delta_x) : abs(ptr->delta_y);
-//	x_incr = ptr->delta_x / lead_axis;
-//	y_incr = ptr->delta_y / lead_axis;
-//	while (index < lead_axis)
-//	{
-//		illuminate(ptr, get_color(ptr));
-//	//	printf("%d, %d\n", ptr->curr.x, ptr->curr.y);
-//		ptr->curr.x += x_incr;
-//		ptr->curr.y += y_incr;
-//		index++;
-//	}
-//}
-
 static void	draw_line_3d(t_param *ptr)
 {
-	t_points	sign;
-	int		error[2];
+	int			error[2];
 
 	ptr->delta_x = abs(ptr->end.x - ptr->start.x);
 	ptr->delta_y = abs(ptr->end.y - ptr->start.y);
-	sign.x = ptr->start.x < ptr->end.x ? 1 : -1;
-	sign.y = ptr->start.y < ptr->end.y ? 1 : -1;
 	error[0] = ptr->delta_x - ptr->delta_y;
 	ptr->curr = ptr->start;
 	while (ptr->curr.x != ptr->end.x || ptr->curr.y != ptr->end.y)
@@ -100,12 +72,12 @@ static void	draw_line_3d(t_param *ptr)
 		if ((error[1] = error[0] * 2) > -ptr->delta_y)
 		{
 			error[0] -= ptr->delta_y;
-			ptr->curr.x += sign.x;
+			ptr->curr.x += ptr->start.x < ptr->end.x ? 1 : -1;
 		}
 		if (error[1] < ptr->delta_x)
 		{
 			error[0] += ptr->delta_x;
-			ptr->curr.y += sign.y;
+			ptr->curr.y += ptr->start.y < ptr->end.y ? 1 : -1;
 		}
 	}
 }
@@ -160,7 +132,6 @@ static void	draw_vertical(t_param *ptr)
 			ptr->end.rgb = get_default_color(ptr->map[y][x] * ptr->depth);
 			x != 0 ? draw_line_3d(ptr) : 0;
 			ptr->start = ptr->end;
-			//ft_memcpy(&ptr->start, &ptr->end, sizeof(int) * 2);
 			ptr->end = temp;
 			ptr->end.x += ptr->tile_size;
 			x++;

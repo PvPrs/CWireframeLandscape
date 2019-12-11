@@ -75,12 +75,10 @@ int		close_frame(void *ptr)
 void	init(t_param *ptr)
 {
 	ptr->endian = 0;
-	ptr->start.rgb = 0xFFFFFF;
-	ptr->end.rgb = 0xFF0000;
 	ptr->width = 1200;
 	ptr->height = 750;
 	ptr->tile_size = 40;
-	ptr->depth = 1;
+	ptr->depth = 2;
 	ptr->beta = 0;
 	ptr->alpha = 0;
 	ptr->gamma = 0;
