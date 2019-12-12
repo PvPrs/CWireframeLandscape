@@ -14,12 +14,8 @@
 #include "../libft/includes/libft.h"
 #include "../minilibx_macos/mlx.h"
 #include <math.h>
-#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define X 1
-#define Y 0
 
 /*
 ** @bits_per_pixel will be filled with the

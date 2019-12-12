@@ -12,7 +12,6 @@
 
 #include "../../minilibx_macos/mlx.h"
 #include "../../includes/fdf.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 int		key_event(keyPressed key, t_param *ptr)

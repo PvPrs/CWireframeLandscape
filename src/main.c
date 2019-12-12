@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <string.h>
 #include "../includes/fdf.h"
 #include "../libft/includes/libft.h"
 #include <fcntl.h>
