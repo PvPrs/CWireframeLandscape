@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 /*
-**
 ** @param str Represents the String to search in
 ** @param occur Represents the character to find
 ** @param term_char Represents the terminating character
 ** @return
 */
+
 int		ft_char_occur(char *str, char occur)
 {
 	int index;
@@ -31,6 +30,5 @@ int		ft_char_occur(char *str, char occur)
 			count++;
 		index++;
 	}
-	printf("count return: %d\n", count);
 	return (count);
 }

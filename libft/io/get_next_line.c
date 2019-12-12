@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+
 static void		join_and_read(char **str, char **h, char buf[], int fd)
 {
 	*str = *h;

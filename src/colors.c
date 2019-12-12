@@ -17,11 +17,11 @@ static double	percent(int start, int end, int current)
 {
 	double placement;
 	double distance;
+
 	placement = current - start;
 	distance = end - start;
 	return ((distance == 0) ? 1.0 : (placement / distance));
 }
-
 
 static int		get_light(int start, int end, double percentage)
 {
@@ -60,7 +60,7 @@ int				get_color(t_param *ptr)
 ** Get color from default palette. Color depends on altitude
 */
 
-color	get_default_color(int z)
+color			get_default_color(int z)
 {
 	double	percentage;
 
@@ -73,8 +73,8 @@ color	get_default_color(int z)
 		return (LIGHT_ORANGE);
 	else if (percentage == 0.5)
 		return (DEFAULT);
-    else if (percentage < 0.6)
-        return (CANARY_YELLOW);
+	else if (percentage < 0.6)
+		return (CANARY_YELLOW);
 	else if (percentage < 0.8)
 		return (LIGHT_GREEN);
 	else

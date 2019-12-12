@@ -62,9 +62,9 @@ int			**ft_read_map(char *file, t_param *ptr)
 {
 	int		fd;
 	char	*line;
-
 	t_lines	*lst;
 	t_lines	*head;
+
 	lst = malloc(sizeof(*lst));
 	head = lst;
 	if (!(ft_strcmp(ft_strrchr(file, '.'), ".fdf") == 0))

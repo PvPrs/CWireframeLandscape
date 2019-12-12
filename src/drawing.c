@@ -69,7 +69,8 @@ static void	draw_line_3d(t_param *ptr)
 	while (ptr->curr.x != ptr->end.x || ptr->curr.y != ptr->end.y)
 	{
 		illuminate(ptr, get_color(ptr));
-		if ((error[1] = error[0] * 2) > -ptr->delta_y)
+		error[1] = error[0] * 2;
+		if (error[1] > -ptr->delta_y)
 		{
 			error[0] -= ptr->delta_y;
 			ptr->curr.x += ptr->start.x < ptr->end.x ? 1 : -1;
@@ -89,7 +90,6 @@ static void	draw_horizontal(t_param *ptr)
 	t_points	temp;
 
 	x = 0;
-	ptr->end.x = 0;
 	while (x < ptr->map_width)
 	{
 		ptr->start.y = 0;
@@ -119,7 +119,6 @@ static void	draw_vertical(t_param *ptr)
 	t_points	temp;
 
 	y = 0;
-	ptr->end.y = 0;
 	while (y < ptr->map_height)
 	{
 		ptr->start.x = 0;
@@ -154,8 +153,10 @@ void		draw_map(t_param *ptr)
 			&(ptr->size_line), &(ptr->endian));
 	draw_horizontal(ptr);
 	ptr->end.x = 0;
+	ptr->end.y = 0;
 	draw_vertical(ptr);
 	ptr->end.y = 0;
+	ptr->end.x = 0;
 	mlx_put_image_to_window(ptr->mlx_ptr, ptr->win_ptr, ptr->img, 0, 0);
 	load_interface(ptr);
 }

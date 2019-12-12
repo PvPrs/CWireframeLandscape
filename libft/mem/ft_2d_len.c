@@ -16,6 +16,7 @@
 ** Returns the amount of rows contained in a 2D Array
 ** @return
 */
+
 int		ft_2d_len(char **arr)
 {
 	int index;

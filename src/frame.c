@@ -58,7 +58,7 @@ void	load_interface(t_param *ptr)
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
-	        ptr->fov == PARALLEL ? "parallel" : "isometric");
+			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
 int		close_frame(void *ptr)
