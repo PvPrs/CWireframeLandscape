@@ -32,7 +32,8 @@ void	load_frame(char *title, char *map)
 	ptr->map = ft_read_map(map, ptr);
 	init(ptr);
 	ptr->mlx_ptr = mlx_init();
-	if (ptr->mlx_ptr == NULL) {
+	if (ptr->mlx_ptr == NULL)
+	{
 		printf("Failed to initialize connection to the graphical system.\n");
 		exit(1);
 	}
@@ -57,7 +58,7 @@ void	load_interface(t_param *ptr)
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
-				   ptr->fov == PARALLEL ? "parallel" : "isometric");
+	        ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
 int		close_frame(void *ptr)

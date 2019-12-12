@@ -13,6 +13,18 @@
 #ifndef FDF_FDF_H
 #define FDF_FDF_H
 
+typedef enum        e_color
+{
+    DEFAULT = 0xff9c33,
+    CANARY_YELLOW = 0xd7ff33,
+    LIGHT_GREEN = 0x9cff33,
+    LIME_GREEN = 0x00FF00,
+    WHITE = 0xFFFFFF,
+    LIGHT_ORANGE = 0xff5e33,
+    ORANGE = 0xff4633,
+    RED = 0xFF0000
+} color;
+
 typedef enum		e_projection
 {
 	PARALLEL,
@@ -31,7 +43,7 @@ typedef enum		e_keys
 	PLUS = 24,
 	MINUS = 27,
 	PLUS_NUM = 69,
-	MINUS_NUM = 78,
+	MINUS_NUM = 78
 } keyPressed;
 
 typedef enum		e_mouse
@@ -40,7 +52,7 @@ typedef enum		e_mouse
 	RIGHT_MOUSE = 2,
 	MIDDLE = 3,
 	SCROLL_UP = 4,
-	SCROLL_DOWN = 5,
+	SCROLL_DOWN = 5
 } mousePressed;
 
 typedef struct s_lines
@@ -105,7 +117,7 @@ void		rot_z(t_param *ptr, int z);
 void		iso(int *x, int *y, int z);
 void		rotate(t_param *ptr, int z);
 void		position(t_param *ptr, int flag);
-int			get_color(t_param *ptr);
-int			get_default_color(int z);
+int         get_color(t_param *ptr);
+color		get_default_color(int z);
 
 #endif //FDF_FDF_H

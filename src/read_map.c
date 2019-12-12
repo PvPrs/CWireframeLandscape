@@ -62,6 +62,7 @@ int			**ft_read_map(char *file, t_param *ptr)
 {
 	int		fd;
 	char	*line;
+
 	t_lines	*lst;
 	t_lines	*head;
 	lst = malloc(sizeof(*lst));

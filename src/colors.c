@@ -13,14 +13,6 @@
 #include <stdio.h>
 #include "../includes/fdf.h"
 
-# define DEFAULT			0xffdd33
-# define LIGHT_GREEN		0x9cff33
-# define LIME_GREEN			0x00FF00
-# define WHITE				0xFFFFFF
-# define LIGHT_ORANGE		0xffc133
-# define ORANGE				0xff4633
-# define RED				0xFF0000
-
 static double	percent(int start, int end, int current)
 {
 	double placement;
@@ -68,7 +60,7 @@ int				get_color(t_param *ptr)
 ** Get color from default palette. Color depends on altitude
 */
 
-int	get_default_color(int z)
+color	get_default_color(int z)
 {
 	double	percentage;
 
@@ -79,8 +71,10 @@ int	get_default_color(int z)
 		return (ORANGE);
 	else if (percentage < 0.5)
 		return (LIGHT_ORANGE);
-	else if (percentage < 0.6)
+	else if (percentage == 0.5)
 		return (DEFAULT);
+    else if (percentage < 0.6)
+        return (CANARY_YELLOW);
 	else if (percentage < 0.8)
 		return (LIGHT_GREEN);
 	else
