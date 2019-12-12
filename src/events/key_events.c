@@ -32,9 +32,9 @@ int		key_event(keyPressed key, t_param *ptr)
 	if (key == D)
 		ptr->gamma += 0.087;
 	if (key == PLUS || key == PLUS_NUM)
-		ptr->tile_size += 0.87;
-	if (key == MINUS || key == MINUS_NUM)
-		ptr->tile_size -= 0.87;
+		ptr->tile_size += 1;
+	if ((key == MINUS || key == MINUS_NUM) && ptr->tile_size > 1)
+		ptr->tile_size -= 1;
 	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
 	draw_map(ptr);
 	return (0);

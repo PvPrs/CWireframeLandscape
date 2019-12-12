@@ -13,16 +13,16 @@
 #ifndef FDF_FDF_H
 #define FDF_FDF_H
 
-typedef enum        e_color
+typedef enum		e_color
 {
-    DEFAULT = 0xff9c33,
-    CANARY_YELLOW = 0xd7ff33,
-    LIGHT_GREEN = 0x9cff33,
-    LIME_GREEN = 0x00FF00,
-    WHITE = 0xFFFFFF,
-    LIGHT_ORANGE = 0xff5e33,
-    ORANGE = 0xff4633,
-    RED = 0xFF0000
+	DEFAULT = 0xff9c33,
+	CANARY_YELLOW = 0xd7ff33,
+	LIGHT_GREEN = 0x9cff33,
+	LIME_GREEN = 0x00FF00,
+	WHITE = 0xFFFFFF,
+	LIGHT_ORANGE = 0xff5e33,
+	ORANGE = 0xff4633,
+	RED = 0xFF0000
 } color;
 
 typedef enum		e_projection

@@ -142,7 +142,7 @@ static void	draw_vertical(t_param *ptr)
 }
 
 /*
-** draw_map initializes andd sets up the complete drawing of the map.
+** draw_map initializes and sets up the complete drawing of the map.
 ** @param ptr represents a pointer to the t_param struct.
 */
 
