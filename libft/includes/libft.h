@@ -18,8 +18,6 @@
 # include <unistd.h>
 # include <ctype.h>
 
-#define INITIALIZE(...) __VA_ARGS__= 0
-
 typedef struct		s_list
 {
 	void			*content;
