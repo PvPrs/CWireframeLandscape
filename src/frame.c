@@ -12,6 +12,7 @@
 
 #include "../minilibx_macos/mlx.h"
 #include "../includes/fdf.h"
+#include "../libft/includes/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -26,23 +27,23 @@
 
 void	load_frame(char *title, char *map)
 {
-	t_param *ptr;
+	t_param ptr;
 
-	ptr = malloc(sizeof(t_param));
-	ptr->map = ft_read_map(map, ptr);
-	init(ptr);
-	ptr->mlx_ptr = mlx_init();
-	if (ptr->mlx_ptr == NULL)
+	ft_bzero(&ptr, sizeof(t_param));
+	ptr.map = ft_read_map(map, &ptr);
+	init(&ptr);
+	ptr.mlx_ptr = mlx_init();
+	if (ptr.mlx_ptr == NULL)
 	{
 		printf("Failed to initialize connection to the graphical system.\n");
 		exit(1);
 	}
-	ptr->win_ptr = mlx_new_window(ptr->mlx_ptr, ptr->width, ptr->height, title);
-	mlx_hook(ptr->win_ptr, 2, 0, key_event, ptr);
-	mlx_hook(ptr->win_ptr, 4, 0, mouse_event, ptr);
-	mlx_hook(ptr->win_ptr, 17, 0, close_frame, ptr);
-	draw_map(ptr);
-	mlx_loop(ptr->mlx_ptr);
+	ptr.win_ptr = mlx_new_window(ptr.mlx_ptr, ptr.width, ptr.height, title);
+	mlx_hook(ptr.win_ptr, 2, 0, key_event, &ptr);
+	mlx_hook(ptr.win_ptr, 4, 0, mouse_event, &ptr);
+	mlx_hook(ptr.win_ptr, 17, 0, close_frame, &ptr);
+	draw_map(&ptr);
+	mlx_loop(ptr.mlx_ptr);
 }
 
 /*
@@ -61,9 +62,20 @@ void	load_interface(t_param *ptr)
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
-int		close_frame(void *ptr)
+int		close_frame(t_param *ptr)
 {
-	(void)ptr;
+	int **map;
+	int index;
+
+	index = 0;
+	map = ptr->map;
+	while (map[index] != NULL)
+	{
+		free(map[index]);
+		++index;
+	}
+	free(map[index]);
+	free(map);
 	exit(0);
 }
 

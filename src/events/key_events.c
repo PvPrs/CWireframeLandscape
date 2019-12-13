@@ -17,7 +17,7 @@
 int		key_event(keyPressed key, t_param *ptr)
 {
 	if (key == ESC)
-		exit(1);
+		close_frame(ptr);
 	if (key == LEFT)
 		ptr->beta -= 0.087;
 	if (key == RIGHT)

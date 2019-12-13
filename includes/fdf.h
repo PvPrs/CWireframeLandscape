@@ -103,7 +103,7 @@ typedef struct s_param
 
 
 void		load_frame(char *title, char *map);
-int			close_frame(void *ptr);
+int			close_frame(t_param *ptr);
 int			**ft_read_map(char *file, t_param *ptr);
 void		init(t_param *ptr);
 void		load_interface(t_param *ptr);
@@ -117,7 +117,7 @@ void		rot_z(t_param *ptr, int z);
 void		iso(int *x, int *y, int z);
 void		rotate(t_param *ptr, int z);
 void		position(t_param *ptr, int flag);
-int         get_color(t_param *ptr);
+int			get_color(t_param *ptr);
 color		get_default_color(int z);
 
 #endif //FDF_FDF_H

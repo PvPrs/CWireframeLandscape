@@ -24,5 +24,14 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	load_frame("FDF Codam project - Dave & Brendan", argv[1]);
+	while (1)
+	{
+		if (getchar())
+			break;
+	}
 	return (0);
 }
+
+/*
+** @TODO: Make a shutdown window, free all the memory
+*/

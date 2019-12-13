@@ -30,7 +30,9 @@ static int	**sort_map(t_lines *lst, t_param *ptr)
 	int		row;
 	char	**split_line;
 	int		**map;
+	t_lines *head;
 
+	head = lst;
 	map = malloc(sizeof(*map) * (ptr->map_height + 1));
 	map[ptr->map_height] = NULL;
 	row = 0;
@@ -48,7 +50,9 @@ static int	**sort_map(t_lines *lst, t_param *ptr)
 		index = 0;
 		row++;
 		lst = lst->next;
+		ft_free_array(split_line);
 	}
+	free_lines(head);
 	return (map);
 }
 
@@ -82,4 +86,14 @@ int			**ft_read_map(char *file, t_param *ptr)
 	}
 	ptr->map_width = ft_2d_len(ft_strsplit(head->str, ' '));
 	return (sort_map(head, ptr));
+}
+
+static void		free_lines(t_lines *lst)
+{
+	while (lst != NULL)
+	{
+		free(lst);
+		lst = lst->next;
+	}
+	lst = NULL;
 }

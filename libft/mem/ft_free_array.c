@@ -14,13 +14,36 @@
 
 void		ft_free_array(void **arr)
 {
+	char **temp;
 	int index;
 
 	index = 0;
-	while (arr[index] != NULL)
+	temp = arr;
+	while (temp[index] != NULL)
 	{
-		free(arr[index]);
+		free(temp[index]);
 		index++;
 	}
-	arr = NULL;
+	free(temp[index]);
+	free(temp);
+	temp = NULL;
+}
+
+
+
+int		close_frame(t_param *ptr)
+{
+	int **map;
+	int index;
+
+	index = 0;
+	map = ptr->map;
+	while (map[index] != NULL)
+	{
+		free(map[index]);
+		++index;
+	}
+	free(map[index]);
+	free(map);
+	exit(0);
 }

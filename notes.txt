@@ -1,0 +1,4 @@
+load_frame() ptr malloced line 32, maybe unnecessary
+
+
+close_frame() free

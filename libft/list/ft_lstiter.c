@@ -11,17 +11,16 @@
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
+#include <stdio.h>
 
-void		ft_lstiter(t_list *lst, void (*f)(t_list *elem))
+void		ft_lstiter(void *lst, void (*f)(void *elem))
 {
-	t_list *temp;
-
 	if (f == NULL || lst == NULL)
 		return ;
 	while (lst != NULL)
 	{
-		temp = lst->next;
 		f(lst);
-		lst = temp;
+		lst + sizeof(lst);
+		printf("%p\n", lst);
 	}
 }
