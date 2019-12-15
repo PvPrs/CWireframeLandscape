@@ -36,7 +36,7 @@ static int		get_light(int start, int end, double percentage)
 ** @return
 */
 
-int				get_color(t_param *ptr)
+int				get_color(struct s_param *ptr)
 {
 	double	percentage;
 	int		red;
@@ -60,7 +60,7 @@ int				get_color(t_param *ptr)
 ** Get color from default palette. Color depends on altitude
 */
 
-color			get_default_color(int z)
+enum e_color			get_default_color(int z)
 {
 	double	percentage;
 

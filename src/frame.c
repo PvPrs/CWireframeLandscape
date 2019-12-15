@@ -27,9 +27,9 @@
 
 void	load_frame(char *title, char *map)
 {
-	t_param ptr;
+	struct s_param ptr;
 
-	ft_bzero(&ptr, sizeof(t_param));
+	ft_bzero(&ptr, sizeof(struct s_param));
 	ptr.map = ft_read_map(map, &ptr);
 	init(&ptr);
 	ptr.mlx_ptr = mlx_init();
@@ -51,7 +51,7 @@ void	load_frame(char *title, char *map)
 ** @param ptr
 */
 
-void	load_interface(t_param *ptr)
+void	load_interface(struct s_param *ptr)
 {
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 20, 0xFFFFFF,
 			"Reset to default.");
@@ -62,7 +62,7 @@ void	load_interface(t_param *ptr)
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
-int		close_frame(t_param *ptr)
+int		close_frame(struct s_param *ptr)
 {
 	int **map;
 	int index;
@@ -85,7 +85,7 @@ int		close_frame(t_param *ptr)
 ** @param map
 */
 
-void	init(t_param *ptr)
+void	init(struct s_param *ptr)
 {
 	ptr->endian = 0;
 	ptr->width = 1200;

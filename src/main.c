@@ -17,21 +17,12 @@
 
 int	main(int argc, char **argv)
 {
-	if (argc != 2)
+	if (argc != 2 || ft_strcmp(&argv[1][ft_strlen(argv[1]) - 4], ".fdf") != 0)
 	{
 		perror("Usage : ./fdf <filename> [ case_size z_size ]\n");
 		strerror(1);
 		exit(1);
 	}
 	load_frame("FDF Codam project - Dave & Brendan", argv[1]);
-	while (1)
-	{
-		if (getchar())
-			break;
-	}
 	return (0);
 }
-
-/*
-** @TODO: Make a shutdown window, free all the memory
-*/

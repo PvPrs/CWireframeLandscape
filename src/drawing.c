@@ -26,7 +26,7 @@
 ** Red >> 16, Green >> 8, Blue
 */
 
-static void	illuminate(t_param *ptr, int rgb)
+static void	illuminate(struct s_param *ptr, int rgb)
 {
 	int index;
 	int x;
@@ -54,7 +54,7 @@ static void	illuminate(t_param *ptr, int rgb)
 ** @param absZ
 */
 
-static void	draw_line_3d(t_param *ptr)
+static void	draw_line_3d(struct s_param *ptr)
 {
 	int			error[2];
 
@@ -79,11 +79,11 @@ static void	draw_line_3d(t_param *ptr)
 	}
 }
 
-static void	draw_horizontal(t_param *ptr)
+static void	draw_horizontal(struct s_param *ptr)
 {
-	int			x;
-	int			y;
-	t_points	temp;
+	int				x;
+	int				y;
+	struct s_points	temp;
 
 	x = 0;
 	while (x < ptr->map_width)
@@ -108,11 +108,11 @@ static void	draw_horizontal(t_param *ptr)
 	}
 }
 
-static void	draw_vertical(t_param *ptr)
+static void	draw_vertical(struct s_param *ptr)
 {
-	int			x;
-	int			y;
-	t_points	temp;
+	int				x;
+	int				y;
+	struct s_points	temp;
 
 	y = 0;
 	while (y < ptr->map_height)
@@ -139,10 +139,10 @@ static void	draw_vertical(t_param *ptr)
 
 /*
 ** draw_map initializes and sets up the complete drawing of the map.
-** @param ptr represents a pointer to the t_param struct.
+** @param ptr represents a pointer to the struct s_param struct.
 */
 
-void		draw_map(t_param *ptr)
+void		draw_map(struct s_param *ptr)
 {
 	ptr->img = mlx_new_image(ptr->mlx_ptr, ptr->width, ptr->height);
 	ptr->data_addr = mlx_get_data_addr(ptr->img, &(ptr->bits_in_pixel),

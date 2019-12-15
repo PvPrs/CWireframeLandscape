@@ -16,9 +16,9 @@
 #include "../libft/includes/libft.h"
 #include "../includes/fdf.h"
 
-static void		free_lines(t_lines *lst, int size)
+static void		free_lines(struct s_lines *lst, int size)
 {
-	t_lines *temp;
+	struct s_lines *temp;
 	int index;
 
 	index = 0;
@@ -40,13 +40,13 @@ static void		free_lines(t_lines *lst, int size)
 ** @return A Pointer-to-Pointer Int Array
 */
 
-static int	**sort_map(t_lines *lst, t_param *ptr)
+static int	**sort_map(struct s_lines *lst, struct s_param *ptr)
 {
 	int		index;
 	int		row;
 	char	**split_line;
 	int		**map;
-	t_lines *head;
+	struct s_lines *head;
 
 	head = lst;
 	map = malloc(sizeof(*map) * (ptr->map_height + 1));
@@ -78,21 +78,21 @@ static int	**sort_map(t_lines *lst, t_param *ptr)
 ** @map ** represents the X-axis(horizontal), * represents the Y-Axis(vertical)
 */
 
-int			**ft_read_map(char *file, t_param *ptr)
+int			**ft_read_map(char *file, struct s_param *ptr)
 {
-	int		fd;
-	char	*line;
-	t_lines	*lst;
-	t_lines	*head;
+	int				fd;
+	char			*line;
+	struct s_lines	*lst;
+	struct s_lines	*head;
 
-	lst = malloc(sizeof(*lst));
-	head = lst;
-	if (!(ft_strcmp(ft_strrchr(file, '.'), ".fdf") == 0))
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
 	{
-		ft_putstr("No Data found.\n");
+		ft_putstr("File not found.\n");
 		exit(1);
 	}
-	fd = open(file, O_RDONLY);
+	lst = malloc(sizeof(*lst));
+	head = lst;
 	while (get_next_line(fd, &line))
 	{
 		lst->str = line;

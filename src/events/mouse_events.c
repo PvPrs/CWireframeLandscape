@@ -14,7 +14,7 @@
 #include "../../minilibx_macos/mlx.h"
 #include <stdio.h>
 
-int		mouse_event(int mouse, int x, int y, t_param *ptr)
+int		mouse_event(int mouse, int x, int y, struct s_param *ptr)
 {
 	if (mouse == LEFT_MOUSE)
 	{
