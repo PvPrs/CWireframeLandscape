@@ -12,38 +12,17 @@
 
 #include "../includes/libft.h"
 
-void		ft_free_array(void **arr)
+void		ft_free_array(char **arr)
 {
-	char **temp;
 	int index;
 
 	index = 0;
-	temp = arr;
-	while (temp[index] != NULL)
+	while (arr[index] != NULL)
 	{
-		free(temp[index]);
+		free(arr[index]);
 		index++;
 	}
-	free(temp[index]);
-	free(temp);
-	temp = NULL;
-}
-
-
-
-int		close_frame(t_param *ptr)
-{
-	int **map;
-	int index;
-
-	index = 0;
-	map = ptr->map;
-	while (map[index] != NULL)
-	{
-		free(map[index]);
-		++index;
-	}
-	free(map[index]);
-	free(map);
-	exit(0);
+	free(arr[index]);
+	free(arr);
+	arr = NULL;
 }

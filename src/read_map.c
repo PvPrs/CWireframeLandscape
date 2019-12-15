@@ -16,6 +16,22 @@
 #include "../libft/includes/libft.h"
 #include "../includes/fdf.h"
 
+static void		free_lines(t_lines *lst, int size)
+{
+	t_lines *temp;
+	int index;
+
+	index = 0;
+	while (index < size)
+	{
+		temp = lst;
+		lst = lst->next;
+		free(temp);
+		index++;
+	}
+	free(lst);
+}
+
 /*
 ** Sorts the read integers into a 2D Pointer Array
 ** @param lst represents a linked-list cointaining the strings
@@ -52,7 +68,7 @@ static int	**sort_map(t_lines *lst, t_param *ptr)
 		lst = lst->next;
 		ft_free_array(split_line);
 	}
-	free_lines(head);
+	free_lines(head, row);
 	return (map);
 }
 
@@ -84,16 +100,7 @@ int			**ft_read_map(char *file, t_param *ptr)
 		lst->next = malloc(sizeof(*lst));
 		lst = lst->next;
 	}
+	lst = NULL;
 	ptr->map_width = ft_2d_len(ft_strsplit(head->str, ' '));
 	return (sort_map(head, ptr));
-}
-
-static void		free_lines(t_lines *lst)
-{
-	while (lst != NULL)
-	{
-		free(lst);
-		lst = lst->next;
-	}
-	lst = NULL;
 }

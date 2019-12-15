@@ -22,7 +22,7 @@ OBJ			= main.o \
 			rot_matrix. o \
 			colors.o
 
-FLAGS		= -Wall -Werror -Wextra -g -O0
+FLAGS		= -Wall -Werror -Wextra -g -O0 -fsanitize=address
 
 MINILIBX = $(MINILIBX_DIRECTORY)libmlx.a
 MINILIBX_DIRECTORY = ./minilibx_macos/
