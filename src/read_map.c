@@ -21,10 +21,10 @@
  * @param lst
  * @param size
  */
-static void		free_lines(struct s_lines *lst, int size)
+static void	free_lines(struct s_lines *lst, int size)
 {
 	struct s_lines *temp;
-	int index;
+	int				index;
 
 	index = 0;
 	while (index < size)
@@ -45,10 +45,10 @@ static void		free_lines(struct s_lines *lst, int size)
 
 static int	**sort_map(struct s_lines *lst, struct s_param *ptr)
 {
-	int		index;
-	int		row;
-	char	**split_line;
-	int		**map;
+	int				index;
+	int				row;
+	char			**split_line;
+	int				**map;
 	struct s_lines *head;
 
 	head = lst;
@@ -79,6 +79,7 @@ static int	**sort_map(struct s_lines *lst, struct s_param *ptr)
 ** @param file represents the file name.
 ** @return sort_map returns an 2D int array.
 ** Stores every line into a linked list, to get sorted by sort_map.
+** @var * head represents a pointer to the first element of the linkedlist.
 */
 
 int			**ft_read_map(char *file, struct s_param *ptr)

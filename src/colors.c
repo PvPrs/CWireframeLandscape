@@ -59,7 +59,7 @@ int				get_color(struct s_param *ptr)
  * Color depends on altitude of current position.
 */
 
-enum e_color			get_default_color(int z)
+enum e_color	get_default_color(int z)
 {
 	double	percentage;
 
