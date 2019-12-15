@@ -58,8 +58,6 @@ void	load_interface(struct s_param *ptr)
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 20, 37, 0xFFFFFF, "View:");
 	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
-	mlx_string_put(ptr->mlx_ptr, ptr->win_ptr, 73, 37, 0xFF0000,
-			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
 int		close_frame(struct s_param *ptr)
