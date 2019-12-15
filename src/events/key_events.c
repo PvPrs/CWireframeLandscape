@@ -14,7 +14,7 @@
 #include "../../includes/fdf.h"
 #include <stdlib.h>
 
-int		key_event(keyPressed key, t_param *ptr)
+int		key_event(enum e_keys key, struct s_param *ptr)
 {
 	if (key == ESC)
 		close_frame(ptr);
