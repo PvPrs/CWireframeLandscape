@@ -16,6 +16,11 @@
 #include "../libft/includes/libft.h"
 #include "../includes/fdf.h"
 
+/**
+ * Frees all the allocated nodes of s_lines
+ * @param lst
+ * @param size
+ */
 static void		free_lines(struct s_lines *lst, int size)
 {
 	struct s_lines *temp;
@@ -33,10 +38,8 @@ static void		free_lines(struct s_lines *lst, int size)
 }
 
 /*
-** Sorts the read integers into a 2D Pointer Array
-** @param lst represents a linked-list cointaining the strings
-** @param size represents the amount of rows
-** @param len represents the width of the rows
+** Sorts the input into a 2D Pointer Array delimited by spaces.
+** @param lst represents a linked-list cointaining a single line.
 ** @return A Pointer-to-Pointer Int Array
 */
 
@@ -73,9 +76,9 @@ static int	**sort_map(struct s_lines *lst, struct s_param *ptr)
 }
 
 /*
-** @param file
-** @return
-** @map ** represents the X-axis(horizontal), * represents the Y-Axis(vertical)
+** @param file represents the file name.
+** @return sort_map returns an 2D int array.
+** Stores every line into a linked list, to get sorted by sort_map.
 */
 
 int			**ft_read_map(char *file, struct s_param *ptr)

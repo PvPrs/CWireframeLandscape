@@ -20,8 +20,8 @@
 ** Almost all the MLX functions return an identifier pointer
 ** which can be later on used for other MLX function calls.
 ** Note that the MiniLibX can handle an arbitrary n of separate windows.
-** @param size_x, size_y
-** @param title
+** @param *title represents the window title.
+** @param *map represents the file name containing the map.
 ** @variable *ptr represents a struct of identifiers for MLX to identify with.
 */
 
@@ -60,6 +60,12 @@ void	load_interface(struct s_param *ptr)
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
+/**
+ * Clears all the MLX Initiaized events and identifiers.
+ * Free's the Map Memory and terminates the program.
+ * @param ptr
+ * @return Exit(0)
+ */
 int		close_frame(struct s_param *ptr)
 {
 	int **map;
@@ -74,13 +80,15 @@ int		close_frame(struct s_param *ptr)
 	}
 	free(map[index]);
 	free(map);
+	mlx_destroy_image(ptr->mlx_ptr, ptr->img);
+	mlx_clear_window(ptr->mlx_ptr, ptr->win_ptr);
+	mlx_destroy_window(ptr->mlx_ptr, ptr->win_ptr);
 	exit(0);
 }
 
 /*
 ** Initialize all the required variables.
 ** @param ptr
-** @param map
 */
 
 void	init(struct s_param *ptr)

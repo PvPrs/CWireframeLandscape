@@ -29,11 +29,9 @@ static int		get_light(int start, int end, double percentage)
 }
 
 /*
+** Gets the colors depending on the altitude of the current position.
 ** @param ptr represents the struct
-** @param delta Represents the current set of delta.
-** @param x Represent the current X coordinate
-** @param y Represents the current Y coordinate
-** @return
+** @return the integer value represented in RGB hexadecimal.
 */
 
 int				get_color(struct s_param *ptr)
@@ -57,7 +55,8 @@ int				get_color(struct s_param *ptr)
 }
 
 /*
-** Get color from default palette. Color depends on altitude
+** Get the default color for the entire tile on top.
+ * Color depends on altitude of current position.
 */
 
 enum e_color			get_default_color(int z)

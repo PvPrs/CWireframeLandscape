@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 /*
+ * @param *rgb represents the hexadecimal rgb value of the current pixel.
 ** @bits_per_pixel will be filled with the
 ** number of bits needed to represent a pixel color a.k.a depth of the image.
 ** @size_line
@@ -138,7 +139,7 @@ static void	draw_vertical(struct s_param *ptr)
 }
 
 /*
-** draw_map initializes and sets up the complete drawing of the map.
+** draw_map initializes a new image and executes the drawing process.
 ** @param ptr represents a pointer to the struct s_param struct.
 */
 
