@@ -18,7 +18,7 @@
 #include <stdlib.h>
 
 /*
- * @param *rgb represents the hexadecimal rgb value of the current pixel.
+** @param *rgb represents the hexadecimal rgb value of the current pixel.
 ** @bits_per_pixel will be filled with the
 ** number of bits needed to represent a pixel color a.k.a depth of the image.
 ** @size_line

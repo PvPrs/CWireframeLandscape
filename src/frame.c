@@ -60,12 +60,13 @@ void	load_interface(struct s_param *ptr)
 			ptr->fov == PARALLEL ? "parallel" : "isometric");
 }
 
-/**
- * Clears all the MLX Initiaized events and identifiers.
- * Free's the Map Memory and terminates the program.
- * @param ptr
- * @return Exit(0)
- */
+/*
+** Clears all the MLX Initiaized events and identifiers.
+** Free's the Map Memory and terminates the program.
+** @param ptr
+** @return Exit(0)
+*/
+
 int		close_frame(struct s_param *ptr)
 {
 	int **map;

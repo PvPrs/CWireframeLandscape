@@ -56,7 +56,7 @@ int				get_color(struct s_param *ptr)
 
 /*
 ** Get the default color for the entire tile on top.
- * Color depends on altitude of current position.
+** Color depends on altitude of current position.
 */
 
 enum e_color	get_default_color(int z)

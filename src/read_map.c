@@ -16,14 +16,15 @@
 #include "../libft/includes/libft.h"
 #include "../includes/fdf.h"
 
-/**
- * Frees all the allocated nodes of s_lines
- * @param lst
- * @param size
- */
+/*
+** Frees all the allocated nodes of s_lines
+** @param lst
+** @param size
+*/
+
 static void	free_lines(struct s_lines *lst, int size)
 {
-	struct s_lines *temp;
+	struct s_lines	*temp;
 	int				index;
 
 	index = 0;
@@ -43,35 +44,31 @@ static void	free_lines(struct s_lines *lst, int size)
 ** @return A Pointer-to-Pointer Int Array
 */
 
-static int	**sort_map(struct s_lines *lst, struct s_param *ptr)
+static int	**sort_map(struct s_lines *lst, struct s_param *ptr, int y, int x)
 {
-	int				index;
-	int				row;
 	char			**split_line;
 	int				**map;
-	struct s_lines *head;
+	struct s_lines	*head;
 
 	head = lst;
 	map = malloc(sizeof(*map) * (ptr->map_height + 1));
 	map[ptr->map_height] = NULL;
-	row = 0;
-	index = 0;
-	while (row < ptr->map_height && lst->next != NULL)
+	while (y < ptr->map_height && lst->next != NULL)
 	{
 		split_line = ft_strsplit(lst->str, ' ');
-		map[row] = malloc(sizeof(**map) * (ptr->map_width + 1));
-		while (index < ptr->map_width)
+		map[y] = malloc(sizeof(**map) * (ptr->map_width + 1));
+		while (x < ptr->map_width)
 		{
-			map[row][index] = ft_atoi(split_line[index]);
-			index++;
+			map[y][x] = ft_atoi(split_line[x]);
+			x++;
 		}
-		map[row][index] = -1;
-		index = 0;
-		row++;
+		map[y][x] = -1;
+		x = 0;
+		y++;
 		lst = lst->next;
 		ft_free_array(split_line);
 	}
-	free_lines(head, row);
+	free_lines(head, y);
 	return (map);
 }
 
@@ -104,7 +101,6 @@ int			**ft_read_map(char *file, struct s_param *ptr)
 		lst->next = malloc(sizeof(*lst));
 		lst = lst->next;
 	}
-	lst = NULL;
-	ptr->map_width = ft_2d_len(ft_strsplit(head->str, ' '));
-	return (sort_map(head, ptr));
+	ptr->map_width = ft_2d_len(ft_strsplit(head->str, ' ')); // @TODO: Free the 2d Array returned by ft_strsplit.
+	return (sort_map(head, ptr, 0, 0));
 }
