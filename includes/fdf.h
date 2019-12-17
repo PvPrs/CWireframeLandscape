@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #ifndef FDF_FDF_H
-#define FDF_FDF_H
+# define FDF_FDF_H
 
-enum		e_color
+enum					e_color
 {
 	DEFAULT = 0xff9c33,
 	CANARY_YELLOW = 0xd7ff33,
@@ -25,13 +25,13 @@ enum		e_color
 	RED = 0xFF0000
 };
 
-enum		e_projection
+enum	e_projection
 {
 	PARALLEL,
 	ISOMETRIC
 };
 
-enum		e_keys
+enum					e_keys
 {
 	LEFT = 123,
 	RIGHT = 124,
@@ -46,7 +46,7 @@ enum		e_keys
 	MINUS_NUM = 78
 };
 
-enum		e_mouse
+enum					e_mouse
 {
 	LEFT_MOUSE = 1,
 	RIGHT_MOUSE = 2,
@@ -55,52 +55,51 @@ enum		e_mouse
 	SCROLL_DOWN = 5
 };
 
-struct s_lines
+struct					s_lines
 {
-	char *str;
-	int	len;
-	int rows;
-	struct s_lines *next;
+	char				*str;
+	int					len;
+	int					rows;
+	struct s_lines		*next;
 };
 
-struct s_points
+struct					s_points
 {
-	int x;
-	int y;
-	int z;
-	int rgb;
+	int					x;
+	int					y;
+	int					z;
+	int					rgb;
 };
 
-struct s_param
+struct					s_param
 {
-	void						*mlx_ptr;
-	void						*win_ptr;
-	void						*img;
-	char						*data_addr;
-	int							bits_in_pixel;
-	int 						size_line;
-	int							endian;
-	int							width;
-	int							height;
-	int							**map;
-	int							map_width;
-	int							map_height;
-	double						gamma;
-	double						beta;
-	double						alpha;
-	double						depth;
-	int							tile_size;
-	int							delta_x;
-	int							delta_y;
-	int							new_x;
-	int							new_y;
-	int							new_z;
-	struct s_points				start;
-	struct s_points				end;
-	struct s_points				curr;
-	enum e_projection			fov;
+	void				*mlx_ptr;
+	void				*win_ptr;
+	void				*img;
+	char				*data_addr;
+	int					bits_in_pixel;
+	int					size_line;
+	int					endian;
+	int					width;
+	int					height;
+	int					**map;
+	int					map_width;
+	int					map_height;
+	double				gamma;
+	double				beta;
+	double				alpha;
+	double				depth;
+	int					tile_size;
+	int					delta_x;
+	int					delta_y;
+	int					new_x;
+	int					new_y;
+	int					new_z;
+	struct s_points		start;
+	struct s_points		end;
+	struct s_points		curr;
+	enum e_projection	fov;
 };
-
 
 void			load_frame(char *title, char *map);
 int				close_frame(struct s_param *ptr);
@@ -120,4 +119,4 @@ void			position(struct s_param *ptr, int flag);
 int				get_color(struct s_param *ptr);
 enum e_color	get_default_color(int z);
 
-#endif //FDF_FDF_H
+#endif

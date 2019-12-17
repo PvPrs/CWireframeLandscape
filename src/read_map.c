@@ -85,6 +85,7 @@ int			**ft_read_map(char *file, struct s_param *ptr)
 	char			*line;
 	struct s_lines	*lst;
 	struct s_lines	*head;
+	char			**split;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -101,6 +102,8 @@ int			**ft_read_map(char *file, struct s_param *ptr)
 		lst->next = malloc(sizeof(*lst));
 		lst = lst->next;
 	}
-	ptr->map_width = ft_2d_len(ft_strsplit(head->str, ' ')); // @TODO: Free the 2d Array returned by ft_strsplit.
+	split = ft_strsplit(head->str, ' ');
+	ptr->map_width = ft_2d_len(split);
+	ft_free_array(split);
 	return (sort_map(head, ptr, 0, 0));
 }
