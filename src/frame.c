@@ -5,16 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/09/08 11:55:57 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/09/08 11:55:58 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/08 11:55:57 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:13:18 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minilibx_macos/mlx.h"
-#include "../includes/fdf.h"
-#include "../libft/includes/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "fdf.h"
 
 /*
 ** Almost all the MLX functions return an identifier pointer

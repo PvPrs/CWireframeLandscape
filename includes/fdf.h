@@ -5,13 +5,20 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/09/08 15:42:38 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/09/08 15:42:40 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/08 15:42:38 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:14:47 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_FDF_H
 # define FDF_FDF_H
+
+#include "libft.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <math.h>
+#include "../minilibx_macos/mlx.h"
 
 enum					e_color
 {

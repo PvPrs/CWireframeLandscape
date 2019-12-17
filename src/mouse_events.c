@@ -5,14 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/09/28 16:37:48 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/09/28 16:37:49 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/28 16:37:48 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:11:19 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/fdf.h"
-#include "../../minilibx_macos/mlx.h"
-#include <stdio.h>
+#include "fdf.h"
 
 int		mouse_event(int mouse, int x, int y, struct s_param *ptr)
 {

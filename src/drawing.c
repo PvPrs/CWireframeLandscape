@@ -5,17 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/09/28 09:38:29 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/09/28 09:38:30 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/28 09:38:29 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:12:56 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
-#include "../libft/includes/libft.h"
-#include "../minilibx_macos/mlx.h"
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "fdf.h"
 
 /*
 ** @param *rgb represents the hexadecimal rgb value of the current pixel.

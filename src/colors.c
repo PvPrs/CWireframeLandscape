@@ -5,13 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/31 11:15:42 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/10/31 11:16:11 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/10/31 11:15:42 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:12:11 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "../includes/fdf.h"
+#include "fdf.h"
 
 static double	percent(int start, int end, int current)
 {

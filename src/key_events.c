@@ -5,14 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/09/08 16:08:41 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/09/08 16:08:42 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/08 16:08:41 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:11:47 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minilibx_macos/mlx.h"
-#include "../../includes/fdf.h"
-#include <stdlib.h>
+#include "fdf.h"
 
 int		key_event(enum e_keys key, struct s_param *ptr)
 {

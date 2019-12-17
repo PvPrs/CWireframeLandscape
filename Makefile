@@ -1,48 +1,61 @@
-NAME		= fdf
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: bprado <bprado@student.codam.nl>             +#+                      #
+#                                                    +#+                       #
+#    Created: 2019/12/17 16:46:40 by bprado         #+#    #+#                 #
+#    Updated: 2019/12/17 19:24:51 by bprado        ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
 
-LIB_PATH	= ./libft/
+NAME				= fdf
 
-LIB			= -lmlx -lft -L libft/ -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
+LIB_PATH			= ./libft/
 
-SRC			= src/main.c \
-			src/frame.c \
-			src/read_map.c \
-			src/events/key_events.c \
-			src/events/mouse_events.c \
-			src/drawing.c \
-			src/rot_matrix.c \
-			src/colors.c
+FRAMEWORK			= -framework OpenGL -framework AppKit
 
-OBJ			= main.o \
-			frame.o \
-			read_map.o \
-			key_events.o \
-			mouse_events.o \
-			drawing.o \
-			rot_matrix. o \
-			colors.o
+DEPENDENCIES		= -lmlx -L $(LIB_PATH) -lft -L $(MINILIBX_DIRECTORY) $(FRAMEWORK) $(INC)
 
-FLAGS		= -Wall -Werror -Wextra
+SRC					= $(wildcard src/*.c)
 
-MINILIBX = $(MINILIBX_DIRECTORY)libmlx.a
-MINILIBX_DIRECTORY = ./minilibx_macos/
-MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)
+INC					= -I includes -I libft/includes
+
+OBJ					= $(patsubst src/%.c,obj/%.o,$(SRC))
+
+FLAGS				= -Wall -Werror -Wextra
+
+MINILIBX 			= $(MINILIBX_DIRECTORY)/libmlx.a
+
+MINILIBX_DIRECTORY 	= ./minilibx_macos
+
 
 all: $(NAME)
 
-$(NAME):
-	@make -C $(MINILIBX_DIRECTORY) all
-	@make -C $(LIB_PATH) all
-	@gcc $(FLAGS) $(SRC) -I $(LIB_PATH) $(LIB) -I $(MINILIBX_HEADERS) -o $(NAME)
+$(NAME): $(OBJ) libft/libft.a minilibx_macos/libmlx.a
+	@echo "something magical is about to happen..."
+	@gcc $(FLAGS) $(SRC) $(DEPENDENCIES) -o $(NAME)
+
+obj/%.o: src/%.c includes/fdf.h
+	@mkdir -p obj
+	$(CC) -c $(FLAGS) $(INC) -o $@ $<
+
+minilibx_macos/libmlx.a: $(wildcard minilibx_macos/*.c)
+	@$(MAKE) -C $(MINILIBX_DIRECTORY)
+
+libft/libft.a: $(wildcard libft/*.c)
+	@$(MAKE) -C $(LIB_PATH)
 
 clean:
-	@make -C $(MINILIBX_DIRECTORY) clean
-	@make -C $(LIB_PATH) clean
-	@rm -f $(OBJ)
+	@echo "lets clean..."
+	@make clean -C $(MINILIBX_DIRECTORY)
+	@make clean -C $(LIB_PATH)
+	@rm -rf obj
 
-fclean:
+fclean:	clean
 	@rm -f $(MINILIBX)
-	@make -C $(LIB_PATH) fclean
+	@make fclean -C $(LIB_PATH)
 	@rm -f $(NAME)
 
 re:	fclean all

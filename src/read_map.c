@@ -5,16 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/09/07 15:13:27 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/09/07 15:13:28 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/09/07 15:13:27 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:13:50 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <fcntl.h>
-#include "../minilibx_macos/mlx.h"
-#include "../libft/includes/libft.h"
-#include "../includes/fdf.h"
+#include "fdf.h"
 
 /*
 ** Frees all the allocated nodes of s_lines

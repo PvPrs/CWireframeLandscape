@@ -5,13 +5,12 @@
 /*                                                     +:+                    */
 /*   By: dvan-boc <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/17 15:24:20 by dvan-boc      #+#    #+#                 */
-/*   Updated: 2019/10/17 15:24:27 by dvan-boc      ########   odam.nl         */
+/*   Created: 2019/10/17 15:24:20 by dvan-boc       #+#    #+#                */
+/*   Updated: 2019/12/17 18:14:10 by bprado        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
-#include <math.h>
+#include "fdf.h"
 
 void	rot_z(struct s_param *ptr, int z)
 {
