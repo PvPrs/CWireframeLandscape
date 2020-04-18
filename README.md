@@ -16,7 +16,6 @@ To run the project with one of the example maps execute the following command in
 ```
 #### Input
 The input is represented by 'values' ordered in position which simply represent the <b>height</b> of a specific coordinate.
-in the example map <b>Coordinate: 2, 2</b> has a height of 10.
 ```
   0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
   0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
@@ -30,4 +29,5 @@ in the example map <b>Coordinate: 2, 2</b> has a height of 10.
   0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
   0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
 ```
+in this example the first coordinate to represent height is <b>2, 2</b> which has a height of <b>10</b>.
 
